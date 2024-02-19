@@ -46,4 +46,4 @@ jobs:
       - name: Rsync deploy mvn User repo
         run: rsync -r --quiet StormLibrary-User/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
       - name: Rsync deploy mvn Username repo
-        run: rsync -r --quiet StormCombat-Username/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
+        run: rsync -r --quiet StormLibrary-Username/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
