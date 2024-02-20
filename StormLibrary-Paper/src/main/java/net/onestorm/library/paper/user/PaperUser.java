@@ -1,12 +1,12 @@
 package net.onestorm.library.paper.user;
 
 import net.kyori.adventure.text.Component;
-import net.onestorm.library.user.User;
+import net.onestorm.library.user.OnlineUser;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PaperUser implements User {
+public class PaperUser implements OnlineUser {
 
     private final Player player;
 

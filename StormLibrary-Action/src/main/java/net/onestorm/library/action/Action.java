@@ -1,9 +1,9 @@
 package net.onestorm.library.action;
 
-import net.onestorm.library.user.User;
+import net.onestorm.library.user.OnlineUser;
 
 public interface Action {
 
-    void execute(User user);
+    void execute(OnlineUser user);
 
 }
