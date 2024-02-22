@@ -34,7 +34,7 @@ public class PaperOnlineUserImpl implements PaperOnlineUser {
     }
 
     @Override
-    public Player getPlayer() {
+    public Player asPlayer() {
         return player;
     }
 
