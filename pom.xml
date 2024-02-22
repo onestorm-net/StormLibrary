@@ -6,7 +6,7 @@
 
     <groupId>net.onestorm.library</groupId>
     <artifactId>stormlibrary</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>StormLibrary-Paper</module>
@@ -44,4 +44,13 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.16.2</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
