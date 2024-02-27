@@ -16,4 +16,13 @@ public interface UsernameManager {
      */
     CompletableFuture<Optional<String>> getUsername(UUID uuid);
 
+    /**
+     * Gets the requested uuid by username.
+     * <p>
+     * When the uuid is not found this method should return an empty Optional.
+     * @param username Username of a user like object, which has a uuid.
+     * @return The uuid.
+     */
+    CompletableFuture<Optional<UUID>> getUuid(String username);
+
 }
