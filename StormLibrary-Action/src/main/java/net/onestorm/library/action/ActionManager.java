@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ActionManager {
 
-    void registerActionBuilder(ActionBuilder builder);
+    void registerBuilder(ActionBuilder builder);
 
-    void unregisterActionBuilder(ActionBuilder builder);
+    void unregisterBuilder(ActionBuilder builder);
 
     List<Action> getActions(Section configuration);
 

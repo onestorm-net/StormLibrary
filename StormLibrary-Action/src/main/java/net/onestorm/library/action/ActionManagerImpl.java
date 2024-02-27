@@ -21,7 +21,7 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public void registerActionBuilder(ActionBuilder builder) {
+    public void registerBuilder(ActionBuilder builder) {
         String name = builder.getName().toLowerCase(Locale.ENGLISH);
 
         if (builderMap.containsKey(name)) {
@@ -31,7 +31,7 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public void unregisterActionBuilder(ActionBuilder builder) {
+    public void unregisterBuilder(ActionBuilder builder) {
         String name = builder.getName().toLowerCase(Locale.ENGLISH);
         builderMap.remove(name);
     }
