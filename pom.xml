@@ -15,6 +15,7 @@
         <module>StormLibrary-Requirement</module>
         <module>StormLibrary-Username</module>
         <module>StormLibrary-Action</module>
+        <module>StormLibrary-Command</module>
     </modules>
 
     <properties>
