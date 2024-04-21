@@ -23,4 +23,14 @@ public class PaperUsernameManager implements UsernameManager {
         return CompletableFuture.completedFuture(Optional.ofNullable(player.getName()));
     }
 
+    @Override
+    public CompletableFuture<Optional<UUID>> getUuid(String username) {
+        OfflinePlayer player = plugin.getServer().getOfflinePlayerIfCached(username);
+
+        if (player == null) {
+            return CompletableFuture.completedFuture(Optional.empty());
+        }
+
+        return CompletableFuture.completedFuture(Optional.of(player.getUniqueId()));
+    }
 }
