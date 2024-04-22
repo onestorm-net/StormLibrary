@@ -118,11 +118,11 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
             Element element = elementEntry.getValue();
 
             if (!(element.getSlot(slotIndex) instanceof PaperSlot slot)) {
-                inventory.addItem(new ItemStack(Material.AIR));
+                inventory.setItem(slotIndex, new ItemStack(Material.AIR));
                 continue;
             }
 
-            inventory.addItem(slot.getItemStack());
+            inventory.setItem(slotIndex, slot.getItemStack());
         }
 
         return inventory;
