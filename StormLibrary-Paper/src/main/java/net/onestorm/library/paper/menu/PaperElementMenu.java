@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.ElementMenu;
 import net.onestorm.library.menu.element.Identifiable;
+import net.onestorm.library.paper.user.PaperUser;
 import net.onestorm.library.user.OnlineUser;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,7 +27,9 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
 
     @Override
     public void open(OnlineUser user) {
-
+        if (user instanceof PaperUser paperUser) {
+            paperUser.asPlayer().openInventory(getInventory());
+        }
     }
 
     @Override
