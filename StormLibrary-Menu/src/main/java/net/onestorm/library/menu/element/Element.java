@@ -1,14 +1,12 @@
 package net.onestorm.library.menu.element;
 
-import net.onestorm.library.menu.slot.Slot;
 
-
-public interface Element {
+public interface Element<I> {
 
     String getName();
 
-    Slot getSlot(int index);
+    I getItem(int index);
 
-    Iterable<Integer> getSlotIndexes();
+    Iterable<Integer> getSlots();
 
 }

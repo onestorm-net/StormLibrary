@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PaperElementMenu implements ElementMenu, InventoryHolder {
+public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder {
 
     private Inventory inventory = null;
-    private final List<Element> elementList = new ArrayList<>(); // all registered elements
-    private final Map<Integer, Element> elementMap = new HashMap<>(); // which location is which element
+    private final List<Element<ItemStack>> elementList = new ArrayList<>(); // all registered elements
+    private final Map<Integer, Element<ItemStack>> elementMap = new HashMap<>(); // which location is which element
 
     @Override
     public void open(OnlineUser user) {
@@ -33,15 +33,15 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
     }
 
     @Override
-    public List<Element> getElements() {
+    public List<Element<ItemStack>> getElements() {
         return elementList;
     }
 
     @Override
-    public List<Element> getElements(String name) {
-        List<Element> result = new ArrayList<>();
+    public List<Element<ItemStack>> getElements(String name) {
+        List<Element<ItemStack>> result = new ArrayList<>();
 
-        for (Element element : elementList) {
+        for (Element<ItemStack> element : elementList) {
             if (element.getName().equalsIgnoreCase(name)) {
                 result.add(element);
             }
@@ -51,10 +51,10 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
     }
 
     @Override
-    public Optional<Element> getElement(String id) {
-        Element result = null;
+    public Optional<Element<ItemStack>> getElement(String id) {
+        Element<ItemStack> result = null;
 
-        for (Element element : elementList) {
+        for (Element<ItemStack> element : elementList) {
             if (!(element instanceof Identifiable identifierElement)) {
                 continue;
             }
@@ -73,12 +73,12 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
     }
 
     @Override
-    public void addElement(Element element) {
+    public void addElement(Element<ItemStack> element) {
         elementList.add(element);
     }
 
     @Override
-    public void removeElement(Element element) {
+    public void removeElement(Element<ItemStack> element) {
         elementList.remove(element);
     }
 
@@ -102,9 +102,9 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
         int size = 54;
         inventory = Bukkit.createInventory(this, size, Component.text("TEST MENU"));
 
-        for (Element element : elementList) {
+        for (Element<ItemStack> element : elementList) {
 
-            for (int slotIndex : element.getSlotIndexes()) {
+            for (int slotIndex : element.getSlots()) {
                 if (slotIndex < 0 || slotIndex > size) {
                     continue;
                 }
@@ -113,16 +113,17 @@ public class PaperElementMenu implements ElementMenu, InventoryHolder {
             }
         }
 
-        for (Map.Entry<Integer, Element> elementEntry : elementMap.entrySet()) {
+        for (Map.Entry<Integer, Element<ItemStack>> elementEntry : elementMap.entrySet()) {
             int slotIndex = elementEntry.getKey();
-            Element element = elementEntry.getValue();
+            Element<ItemStack> element = elementEntry.getValue();
+            ItemStack item = element.getItem(slotIndex);
 
-            if (!(element.getSlot(slotIndex) instanceof PaperSlot slot)) {
+            if (item == null) {
                 inventory.setItem(slotIndex, new ItemStack(Material.AIR));
                 continue;
             }
 
-            inventory.setItem(slotIndex, slot.getItemStack());
+            inventory.setItem(slotIndex, item);
         }
 
         return inventory;

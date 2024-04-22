@@ -5,17 +5,17 @@ import net.onestorm.library.menu.Menu;
 import java.util.List;
 import java.util.Optional;
 
-public interface ElementMenu extends Menu {
+public interface ElementMenu<I> extends Menu {
 
-    List<Element> getElements();
+    List<Element<I>> getElements();
 
-    List<Element> getElements(String name);
+    List<Element<I>> getElements(String name);
 
-    Optional<Element> getElement(String id);
+    Optional<Element<I>> getElement(String id);
 
-    void addElement(Element element);
+    void addElement(Element<I> element);
 
-    void removeElement(Element element);
+    void removeElement(Element<I> element);
 
     void removeElement(String id);
 
