@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development-menu
 
 jobs:
   build_and_test:
@@ -47,3 +48,5 @@ jobs:
         run: rsync -r --quiet StormLibrary-User/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
       - name: Rsync deploy mvn Username repo
         run: rsync -r --quiet StormLibrary-Username/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
+      - name: Rsync deploy mvn Menu repo
+        run: rsync -r --quiet StormLibrary-Menu/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/

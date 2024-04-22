@@ -1,9 +1,9 @@
 package net.onestorm.library.menu;
 
-import net.onestorm.library.user.User;
+import net.onestorm.library.user.OnlineUser;
 
 public interface Menu {
 
-    void open(User user);
+    void open(OnlineUser user);
 
 }
