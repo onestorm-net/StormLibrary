@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.ElementMenu;
 import net.onestorm.library.menu.element.Identifiable;
+import net.onestorm.library.paper.user.PaperOnlineUser;
 import net.onestorm.library.paper.user.PaperUser;
 import net.onestorm.library.user.OnlineUser;
 import org.bukkit.Bukkit;
@@ -21,15 +22,18 @@ import java.util.Optional;
 
 public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder {
 
+    private PaperOnlineUser owner = null;
     private Inventory inventory = null;
     private final List<Element<ItemStack>> elementList = new ArrayList<>(); // all registered elements
     private final Map<Integer, Element<ItemStack>> elementMap = new HashMap<>(); // which location is which element
 
     @Override
     public void open(OnlineUser user) {
-        if (user instanceof PaperUser paperUser) {
-            paperUser.asPlayer().openInventory(getInventory());
+        if (!(user instanceof PaperOnlineUser paperUser)) {
+            throw new IllegalArgumentException("Not a paper user");
         }
+        paperUser.asPlayer().openInventory(getInventory());
+        this.owner = paperUser;
     }
 
     @Override
@@ -116,7 +120,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
         for (Map.Entry<Integer, Element<ItemStack>> elementEntry : elementMap.entrySet()) {
             int slotIndex = elementEntry.getKey();
             Element<ItemStack> element = elementEntry.getValue();
-            ItemStack item = element.getItem(slotIndex);
+            ItemStack item = element.getItem(slotIndex, this.owner);
 
             if (item == null) {
                 inventory.setItem(slotIndex, new ItemStack(Material.AIR));
