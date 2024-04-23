@@ -32,8 +32,8 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
         if (!(user instanceof PaperOnlineUser paperUser)) {
             throw new IllegalArgumentException("Not a paper user");
         }
-        paperUser.asPlayer().openInventory(getInventory());
         this.owner = paperUser;
+        paperUser.asPlayer().openInventory(getInventory());
     }
 
     @Override
