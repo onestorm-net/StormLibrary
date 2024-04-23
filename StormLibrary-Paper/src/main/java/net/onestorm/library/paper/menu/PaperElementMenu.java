@@ -1,18 +1,15 @@
 package net.onestorm.library.paper.menu;
 
 import net.kyori.adventure.text.Component;
+import net.onestorm.library.menu.ClickableMenu;
+import net.onestorm.library.menu.MenuClickEvent;
+import net.onestorm.library.menu.element.ClickableElement;
 import net.onestorm.library.menu.element.Element;
-import net.onestorm.library.menu.element.ElementMenu;
-import net.onestorm.library.menu.element.Identifiable;
+import net.onestorm.library.menu.ElementMenu;
+import net.onestorm.library.menu.element.IdentifiableElement;
 import net.onestorm.library.paper.user.PaperOnlineUser;
-import net.onestorm.library.paper.user.PaperUser;
 import net.onestorm.library.user.OnlineUser;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,12 +17,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder {
+public class PaperElementMenu implements ElementMenu<ItemStack>, ClickableMenu<ItemStack> {
+
+    private static final int MENU_WIDTH = 9;
 
     private PaperOnlineUser owner = null;
-    private Inventory inventory = null;
+    private MenuInventoryHolder inventoryHolder;
+    private Component title;
+    private final int height;
+    private Component newTitle = null;
     private final List<Element<ItemStack>> elementList = new ArrayList<>(); // all registered elements
     private final Map<Integer, Element<ItemStack>> elementMap = new HashMap<>(); // which location is which element
+
+    public PaperElementMenu(Component title, int height) {
+        if (height > 6) {
+            this.height = 6;
+        } else if (height < 1) {
+            this.height = 1;
+        } else {
+            this.height = height;
+        }
+        this.title = title;
+    }
 
     @Override
     public void open(OnlineUser user) {
@@ -33,7 +46,57 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
             throw new IllegalArgumentException("Not a paper user");
         }
         this.owner = paperUser;
-        paperUser.asPlayer().openInventory(getInventory());
+
+        inventoryHolder = new MenuInventoryHolder(height, title, this);
+
+        setContent();
+
+        paperUser.asPlayer().openInventory(inventoryHolder.getInventory());
+    }
+
+    @Override
+    public Component getTitle() {
+        return title;
+    }
+
+    @Override
+    public void setTitle(Component title) {
+        this.newTitle = title;
+    }
+
+    @Override
+    public void update() {
+        if (inventoryHolder == null || !inventoryHolder.isValid()) {
+            return; // no need for updating, menu was never opened
+        }
+
+        if (newTitle.equals(title)) {
+            setContent();
+        } else {
+            inventoryHolder.invalidate();
+            title = newTitle;
+            inventoryHolder = new MenuInventoryHolder(height, title, this);
+            setContent();
+            owner.asPlayer().openInventory(inventoryHolder.getInventory());
+        }
+    }
+
+    private void setContent() {
+
+        ItemStack[] content = new ItemStack[height * MENU_WIDTH];
+
+        for (Element<ItemStack> element : elementList) {
+
+            element.getItems(owner).forEach((slot, item) -> {
+                if (slot < 0 || slot > height * MENU_WIDTH) {
+                    return; // continue
+                }
+                elementMap.put(slot, element);
+                content[slot] = item;
+            });
+        }
+
+        inventoryHolder.getInventory().setContents(content);
     }
 
     @Override
@@ -59,7 +122,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
         Element<ItemStack> result = null;
 
         for (Element<ItemStack> element : elementList) {
-            if (!(element instanceof Identifiable identifierElement)) {
+            if (!(element instanceof IdentifiableElement identifierElement)) {
                 continue;
             }
 
@@ -89,7 +152,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
     @Override
     public void removeElement(String id) {
         elementList.removeIf(element -> {
-            if (!(element instanceof Identifiable identifierElement)) {
+            if (!(element instanceof IdentifiableElement identifierElement)) {
                 return false; // continue
             }
             Optional<String> optionalId = identifierElement.getIdentifier();
@@ -98,38 +161,13 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, InventoryHolder
     }
 
     @Override
-    public @NotNull Inventory getInventory() {
-        if (inventory != null) {
-            return inventory;
+    public void onMenuClick(MenuClickEvent<ItemStack> event) {
+        Element<ItemStack> element = elementMap.get(event.getSlot());
+
+        if (!(element instanceof ClickableElement<ItemStack> clickableElement)) {
+            return;
         }
 
-        int size = 54;
-        inventory = Bukkit.createInventory(this, size, Component.text("TEST MENU"));
-
-        for (Element<ItemStack> element : elementList) {
-
-            for (int slotIndex : element.getSlots()) {
-                if (slotIndex < 0 || slotIndex > size) {
-                    continue;
-                }
-
-                elementMap.put(slotIndex, element);
-            }
-        }
-
-        for (Map.Entry<Integer, Element<ItemStack>> elementEntry : elementMap.entrySet()) {
-            int slotIndex = elementEntry.getKey();
-            Element<ItemStack> element = elementEntry.getValue();
-            ItemStack item = element.getItem(slotIndex, this.owner);
-
-            if (item == null) {
-                inventory.setItem(slotIndex, new ItemStack(Material.AIR));
-                continue;
-            }
-
-            inventory.setItem(slotIndex, item);
-        }
-
-        return inventory;
+        clickableElement.onElementClick(event);
     }
 }

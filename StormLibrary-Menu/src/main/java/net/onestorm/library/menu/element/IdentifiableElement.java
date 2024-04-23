@@ -2,7 +2,7 @@ package net.onestorm.library.menu.element;
 
 import java.util.Optional;
 
-public interface Identifiable {
+public interface IdentifiableElement {
 
     Optional<String> getIdentifier();
 

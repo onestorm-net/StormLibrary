@@ -2,7 +2,7 @@ package net.onestorm.library.menu.element;
 
 import java.util.OptionalInt;
 
-public interface Prioritizable {
+public interface PrioritizableElement {
 
     OptionalInt getPriority();
 

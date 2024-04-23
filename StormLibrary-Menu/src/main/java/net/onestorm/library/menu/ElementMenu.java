@@ -1,6 +1,7 @@
-package net.onestorm.library.menu.element;
+package net.onestorm.library.menu;
 
 import net.onestorm.library.menu.Menu;
+import net.onestorm.library.menu.element.Element;
 
 import java.util.List;
 import java.util.Optional;
