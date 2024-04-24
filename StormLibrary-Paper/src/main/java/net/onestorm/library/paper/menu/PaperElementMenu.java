@@ -25,7 +25,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, ClickableMenu<I
     private MenuInventoryHolder inventoryHolder;
     private Component title;
     private final int height;
-    private Component newTitle = null;
+    private Component newTitle;
     private final List<Element<ItemStack>> elementList = new ArrayList<>(); // all registered elements
     private final Map<Integer, Element<ItemStack>> elementMap = new HashMap<>(); // which location is which element
 
@@ -38,6 +38,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, ClickableMenu<I
             this.height = height;
         }
         this.title = title;
+        this.newTitle = title;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, ClickableMenu<I
             return; // no need for updating, menu was never opened
         }
 
-        if (newTitle.equals(title)) {
+        if (title.equals(newTitle)) {
             setContent();
         } else {
             inventoryHolder.invalidate();
