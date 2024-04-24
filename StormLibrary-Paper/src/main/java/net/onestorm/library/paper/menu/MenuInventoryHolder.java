@@ -14,6 +14,7 @@ public class MenuInventoryHolder implements InventoryHolder {
     private final int height;
     private final Component title;
     private final Menu menu;
+    private final Inventory inventory;
 
     private boolean isValid = true;
 
@@ -21,11 +22,12 @@ public class MenuInventoryHolder implements InventoryHolder {
         this.height = height;
         this.title = title;
         this.menu = menu;
+        this.inventory = Bukkit.createInventory(this, height * MENU_WIDTH, title);
     }
 
     @Override
     public @NotNull Inventory getInventory() {
-        return Bukkit.createInventory(this, height * MENU_WIDTH, title);
+        return inventory;
     }
     public Menu getMenu() {
         return menu;
