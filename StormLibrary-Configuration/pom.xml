@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.onestorm.library</groupId>
         <artifactId>stormlibrary</artifactId>
-        <version>1.4.7-TEST</version>
+        <version>1.4.8-TEST</version>
     </parent>
 
     <artifactId>stormlibrary-configuration</artifactId>

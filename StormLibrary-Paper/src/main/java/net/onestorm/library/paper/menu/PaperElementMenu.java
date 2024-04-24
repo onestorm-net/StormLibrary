@@ -70,7 +70,7 @@ public class PaperElementMenu implements ElementMenu<ItemStack>, ClickableMenu<I
             return; // no need for updating, menu was never opened
         }
 
-        if (newTitle.equals(title)) {
+        if (title.equals(newTitle)) {
             setContent();
         } else {
             inventoryHolder.invalidate();
