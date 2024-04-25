@@ -1,9 +1,8 @@
 package net.onestorm.library.paper.menu.listener;
 
-import net.onestorm.library.menu.ClickableMenu;
 import net.onestorm.library.menu.Menu;
-import net.onestorm.library.paper.menu.PaperMenuClickEvent;
 import net.onestorm.library.paper.menu.MenuInventoryHolder;
+import net.onestorm.library.paper.menu.PaperMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,15 +42,8 @@ public class MenuListener implements Listener {
             return;
         }
 
-        Menu menu = menuInventoryHolder.getMenu();
-
-        if (!(menu instanceof ClickableMenu)) {
-            return;
-        }
-
-        @SuppressWarnings("unchecked") // todo not sure if this is a safe way.
-        ClickableMenu<ItemStack> clickableMenu = (ClickableMenu<ItemStack>) menu;
-        clickableMenu.onMenuClick(new PaperMenuClickEvent(event, menu));
+        PaperMenu menu = menuInventoryHolder.getMenu();
+        menu.handleClick(event);
     }
 
     @EventHandler
