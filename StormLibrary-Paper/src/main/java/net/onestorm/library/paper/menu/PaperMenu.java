@@ -2,41 +2,42 @@ package net.onestorm.library.paper.menu;
 
 
 import net.kyori.adventure.text.Component;
-import net.onestorm.library.menu.Menu;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.onestorm.library.menu.AbstractMenu;
+import net.onestorm.library.menu.element.CloseableElement;
 import net.onestorm.library.menu.element.Element;
-import net.onestorm.library.menu.element.IdentifiableElement;
-import net.onestorm.library.menu.slot.Slot;
-import net.onestorm.library.paper.menu.element.ClickableElement;
-import net.onestorm.library.paper.menu.slot.ItemStackSlot;
+import net.onestorm.library.menu.element.ElementComparator;
+import net.onestorm.library.menu.cell.Cell;
+import net.onestorm.library.paper.menu.element.TagResolverElement;
+import net.onestorm.library.paper.menu.element.ListenerElement;
+import net.onestorm.library.paper.menu.cell.ItemStackCell;
 import net.onestorm.library.paper.user.PaperOnlineUser;
 import net.onestorm.library.user.OnlineUser;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-public abstract class PaperMenu implements Menu {
+public abstract class PaperMenu extends AbstractMenu {
 
-    private MenuInventoryHolder inventoryHolder = null;
+    private static final Comparator<Element> ELEMENT_COMPARATOR = new ElementComparator();
+
+    private MenuHolder menuHolder;
+    private Component currentTitle;
     private PaperOnlineUser owner = null;
     private Map<String, Object> options;
-    private Component currentTitle;
-    private Component title;
 
-
-    // all registered elements
-    private final List<Element> elementList = new ArrayList<>();
-
-    // which location is which element
     private final Map<Integer, Element> elementMap = new HashMap<>();
-
-    // which location is which slot
-    private final Map<Integer, Slot> slotMap = new HashMap<>();
+    private final Map<Integer, Cell> cellMap = new HashMap<>();
 
     @Override
     public void open(OnlineUser user) {
@@ -45,72 +46,88 @@ public abstract class PaperMenu implements Menu {
 
     @Override
     public void open(OnlineUser user, Map<String, Object> options) {
+        if (menuHolder != null) {
+            throw new IllegalStateException("Menu was already opened!");
+        }
+
         if (!(user instanceof PaperOnlineUser paperUser)) {
             throw new IllegalArgumentException("Cannot open menu, user is not a paper user.");
         }
 
+
         this.owner = paperUser;
         this.options = options;
 
-        currentTitle = title;
-        inventoryHolder = createNewHolder();
-
+        //currentTitle = title;
+        menuHolder = createMenuHolder();
         setContent();
-
-        paperUser.asPlayer().openInventory(inventoryHolder.getInventory());
+        paperUser.asPlayer().openInventory(menuHolder.getInventory());
 
     }
 
     @Override
     public void update() {
-        if (inventoryHolder == null || !inventoryHolder.isValid()) {
+        if (menuHolder == null || menuHolder.isInvalidated()) {
             return; // no need for updating, menu was never opened
         }
 
-        if (title.equals(currentTitle)) {
-            setContent();
-        } else {
-            inventoryHolder.invalidate();
+        Component title = createTitle();
+
+        if (title != null && !title.equals(currentTitle)) {
+            menuHolder.invalidate();
+            menuHolder = createMenuHolder();
             currentTitle = title;
-            inventoryHolder = createNewHolder();
             setContent();
-            owner.asPlayer().openInventory(inventoryHolder.getInventory());
+            owner.asPlayer().openInventory(menuHolder.getInventory());
+        } else {
+            setContent();
         }
     }
 
     private void setContent() {
-        int contentSize = inventoryHolder.getInventory().getSize();
+        int contentSize = getSize();
         ItemStack[] content = new ItemStack[contentSize];
 
-        for (Element element : elementList) {
+        for (Element element : getElements()) {
 
-            element.getSlots(this).forEach((index, slot) -> {
+            element.getContent(this).forEach(cell -> {
+                int index = cell.getIndex();
                 if (index < 0 || index >= contentSize) {
                     return; // continue
                 }
                 elementMap.put(index, element);
-                slotMap.put(index, slot);
+                cellMap.put(index, cell);
 
-                if (!(slot instanceof ItemStackSlot itemStackSlot)) {
+                if (!(cell instanceof ItemStackCell itemStackCell)) {
                     content[index] = new ItemStack(Material.AIR);
                     return; // continue
                 }
 
-                content[index] = itemStackSlot.getItemStack();
+                content[index] = itemStackCell.getItemStack();
             });
         }
 
-        inventoryHolder.getInventory().setContents(content);
+        menuHolder.getInventory().setContents(content);
         // todo make sure inventory updates are on the minecraft thread
     }
 
-    public void updateSlot(ItemStackSlot slot) {
-        Slot currentSlot = slotMap.get(slot.getIndex());
-        if (slot != currentSlot) {
-            return; // you are not the top slot
-            // todo add a way to let a slot know if they are on top, so they dont spam updates when not needed
+    @Override
+    public void updateCell(Cell cell) {
+        if (menuHolder == null || menuHolder.isInvalidated()) {
+            return; // nothing to update
         }
-        inventoryHolder.getInventory().setItem(slot.getIndex(), slot.getItemStack());
+        int index = cell.getIndex();
+        Cell currentCell = cellMap.get(cell.getIndex());
+
+        if (cell != currentCell) {
+            return; // cell is not the top slot
+        }
+
+        if (!(cell instanceof ItemStackCell itemStackCell)) {
+            return;
+        }
+
+        menuHolder.getInventory().setItem(index, itemStackCell.getItemStack());
         // todo make sure inventory updates are on the minecraft thread
     }
 
@@ -120,91 +137,78 @@ public abstract class PaperMenu implements Menu {
     }
 
     @Override
-    public Component getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(Component title) {
-        this.title = title;
-    }
-
-    @Override
     public OnlineUser getOwner() {
         return owner;
     }
 
     @Override
-    public List<Element> getElements() {
-        return elementList;
-    }
-
-    @Override
-    public List<Element> getElements(String name) {
-        List<Element> result = new ArrayList<>();
-
-        for (Element element : elementList) {
-            if (element.getName().equalsIgnoreCase(name)) {
-                result.add(element);
-            }
-        }
-
-        return result;
-    }
-
-    @Override
-    public Optional<Element> getElement(String id) {
-        Element result = null;
-
-        for (Element element : elementList) {
-            if (!(element instanceof IdentifiableElement identifierElement)) {
-                continue;
-            }
-
-            Optional<String> optionalId = identifierElement.getIdentifier();
-
-            if (optionalId.isEmpty() || !optionalId.get().equalsIgnoreCase(id)) {
-                continue;
-            }
-
-            result = element;
-            break; // id should be unique, just return the first element we find
-        }
-
-        return Optional.ofNullable(result);
-    }
-
-    @Override
-    public void addElement(Element element) {
-        elementList.add(element);
-    }
-
-    @Override
-    public void removeElement(Element element) {
-        elementList.remove(element);
-    }
-
-    @Override
-    public void removeElement(String id) {
-        elementList.removeIf(element -> {
-            if (!(element instanceof IdentifiableElement identifierElement)) {
-                return false; // continue
-            }
-            Optional<String> optionalId = identifierElement.getIdentifier();
-            return optionalId.isPresent() && optionalId.get().equalsIgnoreCase(id);
-        });
-    }
-
-    protected abstract MenuInventoryHolder createNewHolder();
-
-    public void handleClick(InventoryClickEvent event) {
-        Element element = elementMap.get(event.getSlot());
-
-        if (!(element instanceof ClickableElement clickableElement)) {
+    public void close() {
+        if (menuHolder == null) {
             return;
         }
+        menuHolder.getInventory().close();
+    }
 
-        clickableElement.onClick(this, event.getSlot());
+    public Component createTitle() {
+        Collection<TagResolver> tagResolvers = new ArrayList<>();
+
+        for (Element element : getElements()) {
+            if (!(element instanceof TagResolverElement placeholderElement)) {
+                continue;
+            }
+
+            tagResolvers.addAll(placeholderElement.getTagResolvers(this));
+        }
+
+        return MiniMessage.miniMessage().deserialize(getTitle(), TagResolver.resolver(tagResolvers));
+    }
+
+    protected abstract MenuHolder createMenuHolder();
+
+    @ApiStatus.Internal
+    public MenuHolder getMenuHolder() {
+        return menuHolder;
+    }
+
+    // events
+
+    public void onClick(InventoryClickEvent event) {
+        for (Element element : getElements()) {
+            if (element instanceof ListenerElement listenerElement) {
+                listenerElement.onInventoryClick(event, this); // inventory click
+            }
+        }
+        if (event.getClickedInventory() != event.getView().getTopInventory()) {
+            return;
+        }
+        Element element = elementMap.get(event.getSlot());
+
+        if (element instanceof ListenerElement listenerElement) {
+            listenerElement.onClick(event, this); // element click
+        }
+    }
+
+    public void onClose() {
+        for (Element element : getElements()) {
+            if (element instanceof CloseableElement closeableElement) {
+                closeableElement.close(this);
+            }
+        }
+    }
+
+    public void test() {
+
+        String username = "Sheepert_";
+        int value = 0;
+
+        List<TagResolver> resolvers = new ArrayList<>();
+        resolvers.add(Placeholder.parsed("player", username));
+        resolvers.add(Placeholder.parsed("score", String.valueOf(value)));
+
+        String rawMessage = "<red>Hello <player>, you score is <score></red>";
+
+        Component message = MiniMessage.miniMessage().deserialize(rawMessage, TagResolver.resolver(resolvers));
+
     }
 
 }

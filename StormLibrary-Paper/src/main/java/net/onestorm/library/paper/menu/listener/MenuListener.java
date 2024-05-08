@@ -1,49 +1,40 @@
 package net.onestorm.library.paper.menu.listener;
 
-import net.onestorm.library.menu.Menu;
-import net.onestorm.library.paper.menu.MenuInventoryHolder;
+import net.onestorm.library.paper.menu.MenuHolder;
 import net.onestorm.library.paper.menu.PaperMenu;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MenuListener implements Listener {
 
-    private final JavaPlugin plugin;
-
     public MenuListener(JavaPlugin plugin) {
-        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
-        InventoryHolder holder = inventory.getHolder();
+        InventoryHolder inventoryHolder = inventory.getHolder();
 
-        if (!(holder instanceof MenuInventoryHolder menuInventoryHolder)) {
+        if (!(inventoryHolder instanceof MenuHolder menuHolder)) {
             return;
         }
 
         event.setCancelled(true);
 
-        if (!menuInventoryHolder.isValid()) {
-            plugin.getServer().getScheduler().runTask(plugin, inventory::close);
+        if (menuHolder.isInvalidated()) {
+            menuHolder.getMenu().close();
             return;
         }
 
-        PaperMenu menu = menuInventoryHolder.getMenu();
-        menu.handleClick(event);
+        PaperMenu menu = menuHolder.getMenu();
+        menu.onClick(event);
     }
 
     @EventHandler
@@ -51,50 +42,41 @@ public class MenuListener implements Listener {
         Inventory inventory = event.getInventory();
         InventoryHolder holder = inventory.getHolder();
 
-        if (!(holder instanceof MenuInventoryHolder menuInventoryHolder)) {
+        if (!(holder instanceof MenuHolder menuHolder)) {
             return;
         }
 
         event.setCancelled(true);
 
-        if (!menuInventoryHolder.isValid()) {
-            plugin.getServer().getScheduler().runTask(plugin, inventory::close);
+        if (menuHolder.isInvalidated()) {
+            menuHolder.getMenu().close();
         }
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        onInventoryClose(event.getPlayer());
-    }
+    public void onInventoryClose(InventoryCloseEvent event) {
+        InventoryHolder inventoryHolder = event.getInventory().getHolder();
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        onInventoryClose(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
-        onInventoryClose(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
-        onInventoryClose(event.getPlayer());
-    }
-
-    private void onInventoryClose(Player player) {
-        Inventory inventory = player.getOpenInventory().getTopInventory();
-
-        InventoryHolder holder = inventory.getHolder();
-
-        if (!(holder instanceof MenuInventoryHolder menuInventoryHolder)) {
+        if (!(inventoryHolder instanceof MenuHolder menuHolder)) {
             return;
         }
 
-        if (!menuInventoryHolder.isValid()) {
+        if (!menuHolder.isInvalidated()) {
+            menuHolder.invalidate();
+        }
+
+        PaperMenu menu = menuHolder.getMenu();
+
+        if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW) {
+            menu.onClose();
             return;
         }
 
-        menuInventoryHolder.invalidate();
+        MenuHolder newHolder = menu.getMenuHolder();
+
+        // menu holders are still the same on close, this indicates this close is not from a (full) menu update
+        if (menuHolder == newHolder) {
+            menu.onClose();
+        }
     }
 }

@@ -1,6 +1,6 @@
 package net.onestorm.library.menu;
 
-import net.kyori.adventure.text.Component;
+import net.onestorm.library.menu.cell.Cell;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.user.OnlineUser;
 
@@ -16,24 +16,34 @@ public interface Menu {
 
     Map<String, Object> getOptions();
 
-    Component getTitle();
+    String getTitle();
 
-    void setTitle(Component title);
+    void setTitle(String title);
 
     OnlineUser getOwner();
+
+    int getWidth();
+
+    int getHeight();
+
+    int getSize();
+
+    void updateCell(Cell cell);
 
     void update();
 
     List<Element> getElements();
 
-    List<Element> getElements(String name);
+    List<Element> getElementsByName(String name);
 
-    Optional<Element> getElement(String id);
+    Optional<Element> getElementById(String identifier);
 
     void addElement(Element element);
 
     void removeElement(Element element);
 
-    void removeElement(String id);
+    void removeElementById(String identifier);
+
+    void close();
 
 }
