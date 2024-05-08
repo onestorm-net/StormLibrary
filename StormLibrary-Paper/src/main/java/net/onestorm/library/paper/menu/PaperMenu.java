@@ -88,7 +88,10 @@ public abstract class PaperMenu extends AbstractMenu {
         int contentSize = getSize();
         ItemStack[] content = new ItemStack[contentSize];
 
-        for (Element element : getElements()) {
+        List<Element> elementList = getElements();
+        elementList.sort(ELEMENT_COMPARATOR);
+
+        for (Element element : elementList) {
 
             element.getContent(this).forEach(cell -> {
                 int index = cell.getIndex();
@@ -195,20 +198,4 @@ public abstract class PaperMenu extends AbstractMenu {
             }
         }
     }
-
-    public void test() {
-
-        String username = "Sheepert_";
-        int value = 0;
-
-        List<TagResolver> resolvers = new ArrayList<>();
-        resolvers.add(Placeholder.parsed("player", username));
-        resolvers.add(Placeholder.parsed("score", String.valueOf(value)));
-
-        String rawMessage = "<red>Hello <player>, you score is <score></red>";
-
-        Component message = MiniMessage.miniMessage().deserialize(rawMessage, TagResolver.resolver(resolvers));
-
-    }
-
 }
