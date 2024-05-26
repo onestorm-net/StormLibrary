@@ -1,6 +1,6 @@
 package net.onestorm.library.action;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,19 +37,16 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public List<Action> getActions(Section configuration) {
+    public List<Action> getActions(StorageMap storage) {
         List<Action> result = new ArrayList<>();
 
-        configuration.asMap().keySet().forEach(key -> {
-            Optional<Section> optionalSection = configuration.getSection(key);
+        storage.forEach((key, value) -> {
 
-            if (optionalSection.isEmpty()) {
+            if (!(value instanceof StorageMap storageMap)) {
                 return; // continue forEach
             }
 
-            Section section = optionalSection.get();
-
-            Optional<String> optionalName = section.getString("type");
+            Optional<String> optionalName = storageMap.getString("type");
 
             if (optionalName.isEmpty()) {
                 logger.warning("Missing \"type\" key in configuration for Action: " + key);
@@ -66,7 +63,7 @@ public class ActionManagerImpl implements ActionManager {
 
             Action action;
             try {
-                action = builder.build(section);
+                action = builder.build(storageMap);
             } catch (Exception e) {
                 logger.log(Level.WARNING, "Uncaught error while building an Action: " + name, e);
                 return; // continue forEach

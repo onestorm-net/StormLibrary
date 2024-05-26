@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onestorm.library.action.Action;
 import net.onestorm.library.action.ActionBuilder;
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.Optional;
 
@@ -19,8 +19,8 @@ public class MessageActionBuilder implements ActionBuilder {
     }
 
     @Override
-    public Action build(Section configuration) {
-        Optional<String> optionalMessage = configuration.getString("message");
+    public Action build(StorageMap storage) {
+        Optional<String> optionalMessage = storage.getString("message");
 
         if (optionalMessage.isEmpty()) {
             throw new IllegalArgumentException("Missing \"message\" key in configuration");
