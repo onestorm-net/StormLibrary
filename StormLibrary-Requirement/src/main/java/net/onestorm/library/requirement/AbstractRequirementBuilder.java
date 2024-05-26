@@ -1,15 +1,15 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 public abstract class AbstractRequirementBuilder implements RequirementBuilder {
 
     @Override
-    public Requirement build(Section configuration) {
+    public Requirement build(StorageMap storage) {
 
-        boolean isInverted = configuration.getBoolean("is-inverted").orElse(false);
+        boolean isInverted = storage.getBoolean("is-inverted").orElse(false);
 
-        return build(configuration, isInverted);
+        return build(storage, isInverted);
     }
 
     /**
@@ -18,5 +18,5 @@ public abstract class AbstractRequirementBuilder implements RequirementBuilder {
      * @param isReverted Reverts the result from the build requirement when checked.
      * @return The requirement.
      */
-    protected abstract Requirement build(Section configuration, boolean isReverted);
+    protected abstract Requirement build(StorageMap storage, boolean isReverted);
 }

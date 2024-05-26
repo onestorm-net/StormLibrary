@@ -2,6 +2,7 @@ package net.onestorm.library.requirement;
 
 import net.onestorm.library.configuration.Section;
 import net.onestorm.library.requirement.implementation.FallbackRequirement;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,19 +39,16 @@ public class RequirementManagerImpl implements RequirementManager {
     }
 
     @Override
-    public List<Requirement> getRequirements(Section configuration) {
+    public List<Requirement> getRequirements(StorageMap storage) {
         List<Requirement> result = new ArrayList<>();
 
-        configuration.asMap().keySet().forEach(key -> {
-            Optional<Section> optionalSection = configuration.getSection(key);
+        storage.forEach((key, value) -> {
 
-            if (optionalSection.isEmpty()) {
+            if (!(value instanceof StorageMap storageMap)) {
                 return; // continue forEach
             }
 
-            Section section = optionalSection.get();
-
-            Optional<String> optionalName = section.getString("type");
+            Optional<String> optionalName = storageMap.getString("type");
             if (optionalName.isEmpty()) {
                 logger.warning("Missing \"type\" key in configuration for Requirement: " + key);
                 result.add(new FallbackRequirement());
@@ -68,7 +66,7 @@ public class RequirementManagerImpl implements RequirementManager {
 
             Requirement requirement;
             try {
-                requirement = builder.build(section);
+                requirement = builder.build(storage);
             } catch (Exception e) {
                 logger.log(Level.WARNING, "Uncaught error while building a Requirement: " + name, e);
                 result.add(new FallbackRequirement());
