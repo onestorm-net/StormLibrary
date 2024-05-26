@@ -10,7 +10,7 @@ public interface StorageElement {
 
     /**
      * Gets the parent of this Storage Element
-     * @return
+     * @return the parent Storage Element
      */
     StorageElement getParent();
 
