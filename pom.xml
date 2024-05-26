@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>StormLibrary-Paper</module>
-        <module>StormLibrary-Configuration</module>
         <module>StormLibrary-User</module>
         <module>StormLibrary-Requirement</module>
         <module>StormLibrary-Username</module>
