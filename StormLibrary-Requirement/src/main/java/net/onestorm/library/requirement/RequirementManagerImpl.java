@@ -1,6 +1,5 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.configuration.Section;
 import net.onestorm.library.requirement.implementation.FallbackRequirement;
 import net.onestorm.library.storage.StorageMap;
 
