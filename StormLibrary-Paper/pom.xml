@@ -33,12 +33,6 @@
         </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
-            <artifactId>stormlibrary-configuration</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-user</artifactId>
             <version>1.4.0-SNAPSHOT</version>
             <scope>compile</scope>
