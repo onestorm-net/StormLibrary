@@ -1,6 +1,6 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.user.OnlineUser;
+import net.onestorm.library.user.User;
 
 public interface Requirement {
 
@@ -9,6 +9,6 @@ public interface Requirement {
      * @param user The user.
      * @return True when user meets the requirement.
      */
-    boolean check(OnlineUser user);
+    boolean check(User user);
 
 }

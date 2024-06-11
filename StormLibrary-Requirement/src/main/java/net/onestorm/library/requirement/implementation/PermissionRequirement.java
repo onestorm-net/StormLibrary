@@ -1,7 +1,7 @@
 package net.onestorm.library.requirement.implementation;
 
 import net.onestorm.library.requirement.AbstractRequirement;
-import net.onestorm.library.user.OnlineUser;
+import net.onestorm.library.user.User;
 
 public class PermissionRequirement extends AbstractRequirement {
 
@@ -13,7 +13,7 @@ public class PermissionRequirement extends AbstractRequirement {
     }
 
     @Override
-    protected boolean onCheck(OnlineUser user) {
+    protected boolean onCheck(User user) {
         return user.hasPermission(node);
     }
 }
