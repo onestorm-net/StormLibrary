@@ -1,88 +1,137 @@
-package net.onestorm.library.configuration.file;
-
-import net.onestorm.library.configuration.Configuration;
-import net.onestorm.library.configuration.Section;
+package net.onestorm.library.storage;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
 
-public class MemorySection implements Section {
+public class MemoryStorageMap implements StorageMap {
 
-    private static final char SEPARATOR = '.';
-    private static final boolean SET_OVERWRITE_DEFAULT = true;
+    private static final boolean OVERWRITE_SET_DEFAULT = true;
+    private static final boolean OVERWRITE_SET_MAP_DEFAULT = true;
+    private static final boolean OVERWRITE_SET_LIST_DEFAULT = true;
 
     protected Map<String, Object> map = new ConcurrentHashMap<>();
+    private final Storage root;
+    private final StorageElement parent;
 
-    private final Configuration root;
-    private final Section parent;
-
-    public MemorySection() {
-        if (!(this instanceof Configuration)) {
-            throw new IllegalStateException("Not a root Section");
+    public MemoryStorageMap() {
+        if (!(this instanceof Storage)) {
+            throw new IllegalStateException("Not a root storage object");
         }
 
-        this.root = (Configuration) this;
+        this.root = (Storage) this;
         this.parent = null;
     }
 
-    public MemorySection(Section parent) {
+    public MemoryStorageMap(StorageElement parent) {
         this.root = parent.getRoot();
         this.parent = parent;
     }
 
     @Override
-    public Configuration getRoot() {
+    public Storage getRoot() {
         return root;
     }
 
     @Override
-    public Section getParent() {
+    public StorageElement getParent() {
         return parent;
     }
 
     @Override
-    public Optional<Section> getSection(String path) {
+    public Optional<StorageMap> getMap(String path) {
         Object value = get(path);
-        if (value instanceof Section section) {
-            return Optional.of(section);
+        if (value instanceof StorageMap storageMap) {
+            return Optional.of(storageMap);
         }
         return Optional.empty();
     }
 
     @Override
-    public Section createSection(String path) {
+    public StorageMap setMap(String path) {
+        return setMap(path, OVERWRITE_SET_MAP_DEFAULT);
+    }
+
+    @Override
+    public StorageMap setMap(String path, boolean overwrite) {
         int leadingIndex = -1;
         int trailingIndex;
 
-        Section section = this;
-        while ((leadingIndex = path.indexOf(SEPARATOR, trailingIndex = leadingIndex + 1)) != -1) {
+        StorageMap storageMap = this;
+        char separator = root.getPathSeparator();
+        while ((leadingIndex = path.indexOf(separator, trailingIndex = leadingIndex + 1)) != -1) {
             String node = path.substring(trailingIndex, leadingIndex);
-            Optional<Section> optionalSection = section.getSection(node);
-            if (optionalSection.isEmpty()) {
-                section = section.createSection(node);
+            Optional<StorageMap> optionalStorageMap = storageMap.getMap(node);
+            if (optionalStorageMap.isEmpty()) {
+                storageMap = storageMap.setMap(node); // create missing
             } else {
-                section = optionalSection.get();
+                storageMap = optionalStorageMap.get();
             }
         }
 
         String key = path.substring(trailingIndex);
-        if (section == this) {
-            Section result = new MemorySection(this);
+        if (storageMap == this) {
+            Object value = map.get(key);
+            if (!overwrite && value instanceof StorageMap presentMap) {
+                return presentMap;
+            }
+            StorageMap result = new MemoryStorageMap(this);
             map.put(key, result);
             return result;
         }
-        return section.createSection(key);
+        return storageMap.setMap(key, overwrite);
+    }
 
+    @Override
+    public Optional<StorageList> getList(String path) {
+        Object value = get(path);
+        if (value instanceof StorageList storageList) {
+            return Optional.of(storageList);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public StorageList setList(String path) {
+        return setList(path, OVERWRITE_SET_LIST_DEFAULT);
+    }
+
+    @Override
+    public StorageList setList(String path, boolean overwrite) {
+        int leadingIndex = -1;
+        int trailingIndex;
+
+        StorageMap storageMap = this;
+        char separator = root.getPathSeparator();
+        while ((leadingIndex = path.indexOf(separator, trailingIndex = leadingIndex + 1)) != -1) {
+            String node = path.substring(trailingIndex, leadingIndex);
+            Optional<StorageMap> optionalStorageMap = storageMap.getMap(node);
+            if (optionalStorageMap.isEmpty()) {
+                storageMap = storageMap.setMap(node); // create missing
+            } else {
+                storageMap = optionalStorageMap.get();
+            }
+        }
+
+        String key = path.substring(trailingIndex);
+        if (storageMap == this) {
+            Object value = map.get(key);
+            if (!overwrite && value instanceof StorageList presentList) {
+                return presentList;
+            }
+            StorageList result = new MemoryStorageList(this);
+            map.put(key, result);
+            return result;
+        }
+        return storageMap.setList(key, overwrite);
     }
 
     @Override
     public void set(String path, Object value) {
-        set(path, value, SET_OVERWRITE_DEFAULT);
+        set(path, value, OVERWRITE_SET_DEFAULT);
     }
 
     @Override
@@ -90,22 +139,23 @@ public class MemorySection implements Section {
         int leadingIndex = -1;
         int trailingIndex;
 
-        Section section = this;
-        while ((leadingIndex = path.indexOf(SEPARATOR, trailingIndex = leadingIndex + 1)) != -1) {
+        StorageMap storageMap = this;
+        char separator = root.getPathSeparator();
+        while ((leadingIndex = path.indexOf(separator, trailingIndex = leadingIndex + 1)) != -1) {
             String node = path.substring(trailingIndex, leadingIndex);
-            Optional<Section> optionalSection = section.getSection(node);
-            if (optionalSection.isEmpty()) {
+            Optional<StorageMap> optionalStorageMap = storageMap.getMap(node);
+            if (optionalStorageMap.isEmpty()) {
                 if (value == null) {
                     return; // null is used for deleting a value, but the path doesn't exist
                 }
-                section = section.createSection(node);
+                storageMap = storageMap.setMap(node);
             } else {
-                section = optionalSection.get();
+                storageMap = optionalStorageMap.get();
             }
         }
 
         String key = path.substring(trailingIndex);
-        if (section == this) {
+        if (storageMap == this) {
             if (value == null) {
                 map.remove(key);
             } else if (overwrite) {
@@ -114,30 +164,8 @@ public class MemorySection implements Section {
                 map.putIfAbsent(key, value);
             }
         } else {
-            section.set(key, value, overwrite);
+            storageMap.set(key, value, overwrite);
         }
-    }
-
-    @Override
-    public Map<String, Object> asMap() {
-        return Collections.unmodifiableMap(map);
-    }
-
-    @Override
-    public List<Object> asList() {
-        return List.copyOf(map.values());
-    }
-
-    @Override
-    public Optional<List<Object>> getList(String path) {
-        Object value = get(path);
-        if (value instanceof Section section) {
-            return Optional.of(section.asList());
-        }
-        if (value instanceof List) {
-            return Optional.of((List<Object>) value);
-        }
-        return Optional.empty();
     }
 
     @Override
@@ -145,21 +173,22 @@ public class MemorySection implements Section {
         int leadingIndex = -1;
         int trailingIndex;
 
-        Section section = this;
-        while ((leadingIndex = path.indexOf(SEPARATOR, trailingIndex = leadingIndex + 1)) != -1) {
+        StorageMap storageMap = this;
+        char separator = root.getPathSeparator();
+        while ((leadingIndex = path.indexOf(separator, trailingIndex = leadingIndex + 1)) != -1) {
             String node = path.substring(trailingIndex, leadingIndex);
-            Optional<Section> optionalSection = section.getSection(node);
+            Optional<StorageMap> optionalSection = storageMap.getMap(node);
             if (optionalSection.isEmpty()) {
                 return null;
             }
-            section = optionalSection.get();
+            storageMap = optionalSection.get();
         }
 
         String key = path.substring(trailingIndex);
-        if (section == this) {
+        if (storageMap == this) {
             return map.get(key);
         }
-        return section.get(key);
+        return storageMap.get(key);
     }
 
     @Override
@@ -327,4 +356,10 @@ public class MemorySection implements Section {
 
         return Optional.of(value.charAt(0));
     }
+
+    @Override
+    public void forEach(BiConsumer<String, Object> action) {
+        map.forEach(action);
+    }
+
 }

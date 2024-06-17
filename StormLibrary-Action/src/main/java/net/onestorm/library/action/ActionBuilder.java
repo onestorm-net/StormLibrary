@@ -1,11 +1,11 @@
 package net.onestorm.library.action;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 public interface ActionBuilder {
 
     String getName();
 
-    Action build(Section configuration);
+    Action build(StorageMap storage);
 
 }

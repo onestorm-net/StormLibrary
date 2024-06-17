@@ -1,11 +1,10 @@
 package net.onestorm.library.paper.action;
 
 import net.kyori.adventure.key.Key;
-import net.kyori.adventure.key.KeyPattern;
 import net.kyori.adventure.sound.Sound;
 import net.onestorm.library.action.Action;
 import net.onestorm.library.action.ActionBuilder;
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 import org.bukkit.Server;
 
 import java.util.Locale;
@@ -27,19 +26,19 @@ public class PlaySoundActionBuilder implements ActionBuilder {
     }
 
     @Override
-    public Action build(Section configuration) {
+    public Action build(StorageMap storage) {
 
-        Optional<String> optionalSound = configuration.getString("sound");
+        Optional<String> optionalSound = storage.getString("sound");
 
         if (optionalSound.isEmpty()) {
             throw new IllegalArgumentException("Missing \"sound\" key in configuration");
         }
 
-        String scope = configuration.getString("scope").orElse("player");
-        String namespace = configuration.getString("namespace").orElse("minecraft");
-        String sourceName = configuration.getString("source").orElse("PLAYER");
-        float volume = configuration.getFloat("volume").orElse(1F);
-        float pitch = configuration.getFloat("pitch").orElse(1F);
+        String scope = storage.getString("scope").orElse("player");
+        String namespace = storage.getString("namespace").orElse("minecraft");
+        String sourceName = storage.getString("source").orElse("PLAYER");
+        float volume = storage.getFloat("volume").orElse(1F);
+        float pitch = storage.getFloat("pitch").orElse(1F);
 
         Sound.Source source;
         try {
