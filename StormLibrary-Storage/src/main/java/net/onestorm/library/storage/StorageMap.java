@@ -4,6 +4,7 @@ package net.onestorm.library.storage;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 
 public interface StorageMap extends StorageElement {
@@ -77,6 +78,15 @@ public interface StorageMap extends StorageElement {
      * @param overwrite Should the value be overwritten when it already exists.
      */
     void set(String path, Object value, boolean overwrite);
+
+    /**
+     * Gets a child UUID in this StorageMap by using the path.
+     * <p>
+     * The (Optional) result will be empty when there was no value found or when the value is not castable/parsable to the requested type.
+     * @param path Path of the Boolean to get.
+     * @return Requested UUID.
+     */
+    Optional<UUID> getUuid(String path);
 
     /**
      * Gets a child Boolean in this StorageMap by using the path.

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
@@ -189,6 +190,21 @@ public class MemoryStorageMap implements StorageMap {
             return map.get(key);
         }
         return storageMap.get(key);
+    }
+
+    @Override
+    public Optional<UUID> getUuid(String path) {
+        Object value = get(path);
+        if (value instanceof UUID uuid) {
+            return Optional.of(uuid);
+        } else if (value instanceof String string) {
+            try {
+                return Optional.of(UUID.fromString(string));
+            } catch (IllegalArgumentException e) {
+                // ignore
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
