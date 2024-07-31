@@ -1,6 +1,6 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.user.OnlineUser;
+import net.onestorm.library.user.User;
 
 public abstract class AbstractRequirement implements Requirement {
 
@@ -11,7 +11,7 @@ public abstract class AbstractRequirement implements Requirement {
     }
 
     @Override
-    public boolean check(OnlineUser user) {
+    public boolean check(User user) {
         if (isInverted) {
             return !onCheck(user);
         }
@@ -23,5 +23,5 @@ public abstract class AbstractRequirement implements Requirement {
      * @param user The user.
      * @return True when user meets the requirement.
      */
-    protected abstract boolean onCheck(OnlineUser user);
+    protected abstract boolean onCheck(User user);
 }

@@ -1,6 +1,6 @@
 package net.onestorm.library.action;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface ActionManager {
 
     void unregisterBuilder(ActionBuilder builder);
 
-    List<Action> getActions(Section configuration);
+    List<Action> getActions(StorageMap storage);
 
 
 }

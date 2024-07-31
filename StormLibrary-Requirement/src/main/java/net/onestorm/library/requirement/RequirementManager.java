@@ -1,6 +1,6 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public interface RequirementManager {
      * Creates a list of requirements from a configuration section.
      * <p>
      * Any configuration mistakes will be replaced with "Fallback" requirements, so user will not bypass requirement.
-     * @param configuration The configuration section.
+     * @param storage The storage map section.
      * @return The list with created requirements.
      */
-    List<Requirement> getRequirements(Section configuration);
+    List<Requirement> getRequirements(StorageMap storage);
 
 }

@@ -1,8 +1,8 @@
 package net.onestorm.library.requirement.implementation;
 
-import net.onestorm.library.configuration.Section;
 import net.onestorm.library.requirement.AbstractRequirementBuilder;
 import net.onestorm.library.requirement.Requirement;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.Optional;
 
@@ -16,8 +16,8 @@ public class PermissionRequirementBuilder extends AbstractRequirementBuilder {
     }
 
     @Override
-    protected Requirement build(Section configuration, boolean isInverted) {
-        Optional<String> optional = configuration.getString("permission");
+    protected Requirement build(StorageMap storage, boolean isInverted) {
+        Optional<String> optional = storage.getString("permission");
 
         if (optional.isEmpty()) {
             throw new IllegalArgumentException("Missing \"permission\" key in configuration");

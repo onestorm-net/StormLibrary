@@ -1,6 +1,6 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.configuration.Section;
+import net.onestorm.library.storage.StorageMap;
 
 public interface RequirementBuilder {
 
@@ -14,10 +14,10 @@ public interface RequirementBuilder {
 
     /**
      * Builds a requirement from configuration section.
-     * @param configuration The configuration section.
+     * @param storage The storage map section.
      * @return The requirement.
      */
-    Requirement build(Section configuration);
+    Requirement build(StorageMap storage);
 
 
 }

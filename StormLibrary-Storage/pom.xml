@@ -6,17 +6,16 @@
     <parent>
         <groupId>net.onestorm.library</groupId>
         <artifactId>stormlibrary</artifactId>
-        <version>1.4.12-TEST</version>
+        <version>1.4.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>stormlibrary-configuration</artifactId>
+    <artifactId>stormlibrary-storage</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>

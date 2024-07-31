@@ -1,6 +1,6 @@
-package net.onestorm.library.configuration.file;
+package net.onestorm.library.storage.file;
 
-import net.onestorm.library.configuration.Configuration;
+import net.onestorm.library.storage.MemoryStorage;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,25 +13,14 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-public abstract class FileConfiguration extends MemorySection implements Configuration {
+public abstract class AbstractFileStorage extends MemoryStorage implements FileStorage {
 
-    /**
-     * Load a configuration from file.
-     * @param file File to load from.
-     * @throws IOException Thrown when the given file cannot be read.
-     */
     public void load(File file) throws IOException {
-
         FileInputStream stream = new FileInputStream(file);
 
         load(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
 
-    /**
-     * Load a configuration from a Reader.
-     * @param reader Reader to load from.
-     * @throws IOException Thrown when the given file cannot be read.
-     */
     public void load(Reader reader) throws IOException {
         BufferedReader input;
         if (reader instanceof BufferedReader bufferedReader) {
@@ -55,11 +44,6 @@ public abstract class FileConfiguration extends MemorySection implements Configu
         loadFromString(builder.toString());
     }
 
-    /**
-     * Saves a configuration to a File.
-     * @param file File to save to.
-     * @throws IOException Thrown when the given file cannot be written to.
-     */
     public void save(File file) throws IOException {
         if (file == null) {
             throw new IllegalArgumentException("File cannot be null");
@@ -89,4 +73,5 @@ public abstract class FileConfiguration extends MemorySection implements Configu
      * @return Data as String.
      */
     protected abstract String saveToString();
+
 }
