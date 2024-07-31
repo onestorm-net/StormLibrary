@@ -2,7 +2,7 @@ package net.onestorm.library.menu;
 
 import net.onestorm.library.menu.cell.Cell;
 import net.onestorm.library.menu.element.Element;
-import net.onestorm.library.user.OnlineUser;
+import net.onestorm.library.user.User;
 
 import java.util.List;
 import java.util.Map;
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface Menu {
 
-    void open(OnlineUser user);
+    void open(User user);
 
-    void open(OnlineUser user, Map<String, Object> options);
+    void open(User user, Map<String, Object> options);
 
     Map<String, Object> getOptions();
 
@@ -20,7 +20,7 @@ public interface Menu {
 
     void setTitle(String title);
 
-    OnlineUser getOwner();
+    User getOwner();
 
     int getWidth();
 

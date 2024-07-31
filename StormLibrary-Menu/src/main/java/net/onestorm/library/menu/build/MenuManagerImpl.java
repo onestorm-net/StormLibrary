@@ -1,8 +1,8 @@
 package net.onestorm.library.menu.build;
 
-import net.onestorm.library.configuration.Section;
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.menu.exception.BuildMenuException;
+import net.onestorm.library.storage.StorageMap;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -14,8 +14,8 @@ public class MenuManagerImpl implements MenuManager {
     private final Map<String, MenuBuilder> builderMap = new HashMap<>();
 
     @Override
-    public Menu createMenu(Section section) {
-        Optional<String> optionalName = section.getString("name");
+    public Menu createMenu(StorageMap configuration) {
+        Optional<String> optionalName = configuration.getString("name");
 
         if (optionalName.isEmpty()) {
             throw new BuildMenuException("Missing \"name\" key in configuration");
@@ -30,7 +30,7 @@ public class MenuManagerImpl implements MenuManager {
 
         Menu menu;
         try {
-            menu = builder.build(section);
+            menu = builder.build(configuration);
         } catch (Exception e) {
             throw new BuildMenuException("Uncaught error while building an Action: " + name, e);
         }

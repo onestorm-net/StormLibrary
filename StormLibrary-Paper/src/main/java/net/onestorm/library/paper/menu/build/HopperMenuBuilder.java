@@ -1,10 +1,9 @@
 package net.onestorm.library.paper.menu.build;
 
-import net.onestorm.library.configuration.Section;
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.menu.build.MenuBuilder;
-import net.onestorm.library.paper.menu.ChestMenu;
 import net.onestorm.library.paper.menu.HopperMenu;
+import net.onestorm.library.storage.StorageMap;
 
 public class HopperMenuBuilder implements MenuBuilder {
 
@@ -16,7 +15,7 @@ public class HopperMenuBuilder implements MenuBuilder {
     }
 
     @Override
-    public Menu build(Section configuration) {
+    public Menu build(StorageMap configuration) {
 
         String title = configuration.getString("title").orElse(DEFAULT_MENU_TITLE);
 

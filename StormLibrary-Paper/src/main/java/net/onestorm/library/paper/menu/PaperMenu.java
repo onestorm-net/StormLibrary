@@ -3,7 +3,6 @@ package net.onestorm.library.paper.menu;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.onestorm.library.menu.AbstractMenu;
 import net.onestorm.library.menu.element.CloseableElement;
@@ -13,8 +12,8 @@ import net.onestorm.library.menu.cell.Cell;
 import net.onestorm.library.paper.menu.element.TagResolverElement;
 import net.onestorm.library.paper.menu.element.ListenerElement;
 import net.onestorm.library.paper.menu.cell.ItemStackCell;
-import net.onestorm.library.paper.user.PaperOnlineUser;
-import net.onestorm.library.user.OnlineUser;
+import net.onestorm.library.paper.user.PaperUser;
+import net.onestorm.library.user.User;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -33,24 +32,24 @@ public abstract class PaperMenu extends AbstractMenu {
 
     private MenuHolder menuHolder;
     private Component currentTitle;
-    private PaperOnlineUser owner = null;
+    private PaperUser owner = null;
     private Map<String, Object> options;
 
     private final Map<Integer, Element> elementMap = new HashMap<>();
     private final Map<Integer, Cell> cellMap = new HashMap<>();
 
     @Override
-    public void open(OnlineUser user) {
+    public void open(User user) {
         open(user, new HashMap<>());
     }
 
     @Override
-    public void open(OnlineUser user, Map<String, Object> options) {
+    public void open(User user, Map<String, Object> options) {
         if (menuHolder != null) {
             throw new IllegalStateException("Menu was already opened!");
         }
 
-        if (!(user instanceof PaperOnlineUser paperUser)) {
+        if (!(user instanceof PaperUser paperUser)) {
             throw new IllegalArgumentException("Cannot open menu, user is not a paper user.");
         }
 
@@ -140,7 +139,7 @@ public abstract class PaperMenu extends AbstractMenu {
     }
 
     @Override
-    public OnlineUser getOwner() {
+    public User getOwner() {
         return owner;
     }
 

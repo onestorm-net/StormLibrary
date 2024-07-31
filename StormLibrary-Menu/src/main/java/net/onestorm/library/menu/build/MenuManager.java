@@ -1,11 +1,11 @@
 package net.onestorm.library.menu.build;
 
-import net.onestorm.library.configuration.Section;
 import net.onestorm.library.menu.Menu;
+import net.onestorm.library.storage.StorageMap;
 
 public interface MenuManager {
 
-    Menu createMenu(Section section);
+    Menu createMenu(StorageMap configuration);
 
     void registerBuilder(MenuBuilder builder);
 
