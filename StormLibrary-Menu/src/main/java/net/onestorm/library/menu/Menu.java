@@ -40,6 +40,8 @@ public interface Menu {
 
     void addElement(Element element);
 
+    void addElements(List<Element> elements);
+
     void removeElement(Element element);
 
     void removeElementById(String identifier);

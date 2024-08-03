@@ -68,6 +68,11 @@ public abstract class AbstractMenu implements Menu {
     }
 
     @Override
+    public void addElements(List<Element> elements) {
+        elementList.addAll(elements);
+    }
+
+    @Override
     public void removeElement(Element element) {
         elementList.remove(element);
     }
