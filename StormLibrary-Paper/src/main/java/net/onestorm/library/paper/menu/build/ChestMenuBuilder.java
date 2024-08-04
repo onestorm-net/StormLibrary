@@ -1,11 +1,11 @@
 package net.onestorm.library.paper.menu.build;
 
 import net.onestorm.library.menu.Menu;
-import net.onestorm.library.menu.build.MenuBuilder;
+import net.onestorm.library.menu.build.AbstractMenuBuilder;
 import net.onestorm.library.paper.menu.ChestMenu;
 import net.onestorm.library.storage.StorageMap;
 
-public class ChestMenuBuilder implements MenuBuilder {
+public class ChestMenuBuilder extends AbstractMenuBuilder {
 
     private static final String MENU_NAME = "chest-menu";
     private static final int DEFAULT_MENU_SIZE = 9;
@@ -17,8 +17,7 @@ public class ChestMenuBuilder implements MenuBuilder {
     }
 
     @Override
-    public Menu build(StorageMap configuration) {
-
+    protected Menu createMenu(StorageMap configuration) {
         int size = configuration.getInteger("size").orElse(DEFAULT_MENU_SIZE);
         String title = configuration.getString("title").orElse(DEFAULT_MENU_TITLE);
 
