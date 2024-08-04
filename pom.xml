@@ -15,6 +15,7 @@
         <module>StormLibrary-Username</module>
         <module>StormLibrary-Action</module>
         <module>StormLibrary-Storage</module>
+        <module>StormLibrary-Common</module>
     </modules>
 
     <properties>
