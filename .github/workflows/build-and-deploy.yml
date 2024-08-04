@@ -37,6 +37,8 @@ jobs:
         run: rsync -r --quiet target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
       - name: Rsync deploy mvn Action repo
         run: rsync -r --quiet StormLibrary-Action/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
+      - name: Rsync deploy mvn Common repo
+        run: rsync -r --quiet StormLibrary-Common/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
       - name: Rsync deploy mvn Paper repo
         run: rsync -r --quiet StormLibrary-Paper/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
       - name: Rsync deploy mvn Requirement repo
