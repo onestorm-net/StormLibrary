@@ -1,8 +1,9 @@
 package net.onestorm.library.requirement;
 
+import net.onestorm.library.common.factory.Builder;
 import net.onestorm.library.storage.StorageMap;
 
-public abstract class AbstractRequirementBuilder implements RequirementBuilder {
+public abstract class AbstractRequirementBuilder implements Builder<Requirement> {
 
     @Override
     public Requirement build(StorageMap storage) {
@@ -14,7 +15,7 @@ public abstract class AbstractRequirementBuilder implements RequirementBuilder {
 
     /**
      * Builds a requirement from configuration section.
-     * @param configuration The configuration section.
+     * @param storage The configuration section.
      * @param isReverted Reverts the result from the build requirement when checked.
      * @return The requirement.
      */

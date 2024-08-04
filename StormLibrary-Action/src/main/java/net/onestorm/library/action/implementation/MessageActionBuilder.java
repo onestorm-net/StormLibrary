@@ -3,12 +3,12 @@ package net.onestorm.library.action.implementation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onestorm.library.action.Action;
-import net.onestorm.library.action.ActionBuilder;
+import net.onestorm.library.common.factory.Builder;
 import net.onestorm.library.storage.StorageMap;
 
 import java.util.Optional;
 
-public class MessageActionBuilder implements ActionBuilder {
+public class MessageActionBuilder implements Builder<Action> {
 
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
     private static final String MESSAGE_NAME = "message";

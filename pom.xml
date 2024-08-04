@@ -6,7 +6,7 @@
 
     <groupId>net.onestorm.library</groupId>
     <artifactId>stormlibrary</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>StormLibrary-Paper</module>
@@ -15,6 +15,7 @@
         <module>StormLibrary-Username</module>
         <module>StormLibrary-Action</module>
         <module>StormLibrary-Storage</module>
+        <module>StormLibrary-Common</module>
         <module>StormLibrary-Menu</module>
     </modules>
 

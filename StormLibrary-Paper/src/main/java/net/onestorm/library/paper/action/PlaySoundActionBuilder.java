@@ -3,14 +3,14 @@ package net.onestorm.library.paper.action;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.onestorm.library.action.Action;
-import net.onestorm.library.action.ActionBuilder;
+import net.onestorm.library.common.factory.Builder;
 import net.onestorm.library.storage.StorageMap;
 import org.bukkit.Server;
 
 import java.util.Locale;
 import java.util.Optional;
 
-public class PlaySoundActionBuilder implements ActionBuilder {
+public class PlaySoundActionBuilder implements Builder<Action> {
 
     private static final String ACTION_BUILDER_NAME = "play-sound";
 
