@@ -1,13 +1,17 @@
 package net.onestorm.library.menu.build;
 
+import net.onestorm.library.common.factory.Builder;
+import net.onestorm.library.common.factory.Factory;
 import net.onestorm.library.menu.Menu;
-import net.onestorm.library.menu.element.build.ElementFactory;
+import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.storage.StorageMap;
 
-public interface MenuBuilder {
+public interface MenuBuilder extends Builder<Menu> {
 
-    String getName();
+    Menu build(StorageMap storage, Factory<Element> elementFactory);
 
-    Menu build(ElementFactory elementFactory, StorageMap configuration);
-
+    @Override
+    default Menu build(StorageMap storage) {
+        return build(storage, null);
+    }
 }
