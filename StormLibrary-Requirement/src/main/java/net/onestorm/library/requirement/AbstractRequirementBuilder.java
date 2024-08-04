@@ -2,7 +2,7 @@ package net.onestorm.library.requirement;
 
 import net.onestorm.library.storage.StorageMap;
 
-public abstract class AbstractRequirementBuilder implements RequirementBuilder {
+public abstract class AbstractRequirementBuilder implements Builder<Requirement> {
 
     @Override
     public Requirement build(StorageMap storage) {

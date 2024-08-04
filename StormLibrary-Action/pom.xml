@@ -19,13 +19,13 @@
     <dependencies>
         <dependency>
             <groupId>net.onestorm.library</groupId>
-            <artifactId>stormlibrary-storage</artifactId>
+            <artifactId>stormlibrary-user</artifactId>
             <version>1.4.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
-            <artifactId>stormlibrary-user</artifactId>
+            <artifactId>stormlibrary-common</artifactId>
             <version>1.4.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

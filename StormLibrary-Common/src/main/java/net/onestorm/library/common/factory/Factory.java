@@ -2,12 +2,26 @@ package net.onestorm.library.common.factory;
 
 import net.onestorm.library.storage.StorageMap;
 
-public interface Factory<T> {
+public interface Factory<P> {
 
-    T build(StorageMap storage);
+    /**
+     * Builds a "product" with the given configurations. The name from the builder should be gained
+     * from {@code StorageMap#getString("name")}
+     * @param storage The StorageMap configuration
+     * @return The "product"
+     */
+    P build(StorageMap storage);
 
-    void registerBuilder(Builder<T> builder);
+    /**
+     * Register a builder for this Factory
+     * @param builder the builder
+     */
+    void registerBuilder(Builder<P> builder);
 
-    void unregisterBuilder(Builder<T> builder);
+    /**
+     * Unregister a builder for this Factory
+     * @param builder the builder
+     */
+    void unregisterBuilder(Builder<P> builder);
 
 }
