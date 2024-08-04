@@ -1,6 +1,7 @@
 package net.onestorm.library.menu.build;
 
 import net.onestorm.library.menu.Menu;
+import net.onestorm.library.menu.element.build.ElementFactory;
 import net.onestorm.library.menu.exception.BuildMenuException;
 import net.onestorm.library.storage.StorageMap;
 
@@ -9,9 +10,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-public class MenuManagerImpl implements MenuManager {
+public class MenuFactoryImpl implements MenuFactory {
 
+    private final ElementFactory elementFactory;
     private final Map<String, MenuBuilder> builderMap = new HashMap<>();
+
+    public MenuFactoryImpl(ElementFactory elementFactory) {
+        this.elementFactory = elementFactory;
+    }
 
     @Override
     public Menu createMenu(StorageMap configuration) {
@@ -30,7 +36,7 @@ public class MenuManagerImpl implements MenuManager {
 
         Menu menu;
         try {
-            menu = builder.build(configuration);
+            menu = builder.build(elementFactory, configuration);
         } catch (Exception e) {
             throw new BuildMenuException("Uncaught error while building an Action: " + name, e);
         }
