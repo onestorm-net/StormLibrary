@@ -30,7 +30,7 @@ public class GenericFactory<P> implements Factory<P> {
         try {
             product = builder.build(storage);
         } catch (Exception e) {
-            throw new BuildException("Uncaught error while building an Action: " + name, e);
+            throw new BuildException("Uncaught error while building a product: " + name, e);
         }
 
         return product;
