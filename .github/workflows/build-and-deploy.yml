@@ -33,19 +33,5 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOST }}
-      - name: Rsync deploy mvn Parent repo
-        run: rsync -r --quiet target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Action repo
-        run: rsync -r --quiet StormLibrary-Action/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Paper repo
-        run: rsync -r --quiet StormLibrary-Paper/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Requirement repo
-        run: rsync -r --quiet StormLibrary-Requirement/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Storage repo
-        run: rsync -r --quiet StormLibrary-Storage/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn User repo
-        run: rsync -r --quiet StormLibrary-User/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Username repo
-        run: rsync -r --quiet StormLibrary-Username/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
-      - name: Rsync deploy mvn Menu repo
-        run: rsync -r --quiet StormLibrary-Menu/target/mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
+      - name: Rsync deploy maven repo
+        run: rsync -r --quiet mvn-repo/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/web/www/repo.onestorm.net/public/repository/maven-public/
