@@ -12,119 +12,135 @@ import java.util.Optional;
 public interface Menu {
 
     /**
-     * Opens the menu for the given user
-     * @param user the user
+     * Opens the menu for the specified user.
+     *
+     * @param user the user for whom the menu will be opened
      */
     void open(User user);
 
     /**
-     * Opens the menu for the given user
-     * @param user the user
-     * @param options extra options the menu/elements can use (what page, tab should be opened)
+     * Opens the menu for the specified user with additional options.
+     *
+     * @param user the user for whom the menu will be opened
+     * @param options a map of options that can be used by the menu/elements (e.g., page, tab to be opened)
      */
     void open(User user, Map<String, Object> options);
 
     /**
-     * Gets the menu options
-     * @return the options
+     * Retrieves the menu options.
+     *
+     * @return a map containing the menu options
      */
     Map<String, Object> getOptions();
 
     /**
-     * Gets the title, title can be formatted with the mini message format
-     * @return the title
+     * Retrieves the title of the menu, which can be formatted using the mini message format.
+     *
+     * @return the menu title
      */
     String getTitle();
 
     /**
-     * Sets the title, title can be formatted with the mini message format
-     * @param title the title
+     * Sets the title of the menu, which can be formatted using the mini message format.
+     *
+     * @param title the new title of the menu
      */
     void setTitle(String title);
 
     /**
-     * Gets the menu owner, for who was the menu build and opened
+     * Retrieves the owner of the menu, indicating for whom the menu was built and opened.
+     *
      * @return the menu owner
      */
     User getOwner();
 
     /**
-     * Gets the width of the menu
+     * Retrieves the width of the menu.
+     *
      * @return the menu width
      */
     int getWidth();
 
     /**
-     * Gets the height of the menu
+     * Retrieves the height of the menu.
+     *
      * @return the menu height
      */
     int getHeight();
 
     /**
-     * Gets the size of the menu. The amount of cells in this menu.
-     * @return the size of the menu.
+     * Retrieves the size of the menu, indicating the number of cells it contains.
+     *
+     * @return the menu size
      */
     int getSize();
 
     /**
-     * Updates an existing cell
-     * @param cell the cell
+     * Updates a specific cell within the menu.
+     *
+     * @param cell the cell to be updated
      */
     void updateCell(Cell cell);
 
     /**
-     * Updates the full menu
+     * Updates the entire menu.
      */
     void update();
 
     /**
-     * Gets a list of all elements
-     * @return element list
+     * Retrieves a list of all elements in the menu.
+     *
+     * @return a list of all elements
      */
     List<Element> getElements();
 
     /**
-     * Gets a list of elements which have the given name (element type)
-     * @param name The element name (type)
-     * @return The elements found with the given name
+     * Retrieves a list of elements that have the specified name (type).
+     *
+     * @param name the name (type) of the elements to be retrieved
+     * @return a list of elements with the specified name
      */
     List<Element> getElementsByName(String name);
 
     /**
-     * Gets an element by its unique identifier.
-     * @param identifier the element identifier.
-     * @return The element found with the given identifier.
+     * Retrieves an element by its unique identifier.
+     *
+     * @param identifier the unique identifier of the element
+     * @return an {@code Optional} containing the element if found, or an empty {@code Optional} if not found
      * @see net.onestorm.library.menu.element.IdentifiableElement
      */
     Optional<Element> getElementById(String identifier);
 
     /**
-     * Adds an element to this menu
-     * @param element the element
+     * Adds an element to the menu.
+     *
+     * @param element the element to be added
      */
     void addElement(Element element);
 
     /**
-     * Adds a list of elements to this menu
-     * @param elements element list
+     * Adds a list of elements to the menu.
+     *
+     * @param elements the list of elements to be added
      */
     void addElements(List<Element> elements);
 
     /**
-     * Removes an element from this menu
-     * @param element the element
+     * Removes an element from the menu.
+     *
+     * @param element the element to be removed
      */
     void removeElement(Element element);
 
     /**
-     * Removes an element from this menu by its unique identifier
-     * @param identifier the element identifier.
+     * Removes an element from the menu by its unique identifier.
+     *
+     * @param identifier the unique identifier of the element to be removed
      */
     void removeElementById(String identifier);
 
     /**
-     * Close the menu
+     * Closes the menu.
      */
     void close();
-
 }
