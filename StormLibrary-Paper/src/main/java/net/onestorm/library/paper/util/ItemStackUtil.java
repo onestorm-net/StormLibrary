@@ -54,6 +54,7 @@ public class ItemStackUtil {
             meta.lore(lore);
         });
 
+        item.setItemMeta(meta);
         return item;
     }
 
