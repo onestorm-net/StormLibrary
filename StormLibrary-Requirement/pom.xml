@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.onestorm.library</groupId>
         <artifactId>stormlibrary</artifactId>
-        <version>1.6.1-SNAPSHOT</version>
+        <version>1.6.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>stormlibrary-requirement</artifactId>
@@ -20,13 +20,13 @@
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-user</artifactId>
-            <version>1.6.1-SNAPSHOT</version>
+            <version>1.6.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-common</artifactId>
-            <version>1.6.1-SNAPSHOT</version>
+            <version>1.6.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
