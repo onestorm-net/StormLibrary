@@ -37,6 +37,11 @@ public class ItemStackElementBuilder implements Builder<Element> {
         }
 
         ItemStack itemStack = ItemStackUtil.fromStorage(itemMap);
-        return new ItemStackElement(slots, itemStack);
+        ItemStackElement element = new ItemStackElement(slots, itemStack);
+
+        storage.getString("identifier").ifPresent(element::setIdentifier);
+        storage.getInteger("priority").ifPresent(element::setPriority);
+
+        return element;
     }
 }
