@@ -30,11 +30,10 @@ public class ItemStackUtil {
         int amount = storage.getInteger("amount").orElse(DEFAULT_AMOUNT);
 
         ItemStack item = new ItemStack(material, amount);
-        ItemMeta meta = item.getItemMeta();
 
         storage.getString("display-name").ifPresent(displayName -> {
             Component displayNameComponent = MINI_MESSAGE.deserialize(displayName);
-            meta.displayName(displayNameComponent);
+            item.editMeta(meta -> meta.displayName(displayNameComponent));
         });
 
         storage.getList("lore").ifPresent(storageList -> {
@@ -51,10 +50,9 @@ public class ItemStackUtil {
                 }
                 lore.add(line);
             });
-            meta.lore(lore);
+            item.editMeta(meta -> meta.lore(lore));
         });
 
-        item.setItemMeta(meta);
         return item;
     }
 
