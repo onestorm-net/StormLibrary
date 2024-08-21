@@ -25,6 +25,11 @@ public class StorageBuildContext implements BuildContext {
         return optionalName.get().toLowerCase(Locale.ENGLISH);
     }
 
+    /**
+     * Retrieves the {@code StorageMap} used to create the "product."
+     *
+     * @return the storage map
+     */
     public StorageMap getStorage() {
         return storage;
     }

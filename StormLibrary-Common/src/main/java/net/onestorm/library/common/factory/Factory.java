@@ -5,22 +5,26 @@ import net.onestorm.library.common.factory.context.BuildContext;
 public interface Factory<P> {
 
     /**
-     * Builds a "product" with the given configurations. The name from the builder is gained
-     * from {@link BuildContext#getName}
-     * @param storage The StorageMap configuration
-     * @return The "product"
+     * Builds a "product" using the specified context. The builder's name is retrieved
+     * from {@link BuildContext#getName}.
+     *
+     * @param context the context used to build the "product"
+     * @return the built "product"
+     * @throws BuildException if the factory or builder is unable to create a "product" with the given context
      */
     P build(BuildContext context);
 
     /**
-     * Register a builder for this Factory
-     * @param builder the builder
+     * Registers a builder with this factory.
+     *
+     * @param builder the builder to be registered
      */
     void registerBuilder(Builder<P> builder);
 
     /**
-     * Unregister a builder for this Factory
-     * @param builder the builder
+     * Unregisters a builder from this factory.
+     *
+     * @param builder the builder to be unregistered
      */
     void unregisterBuilder(Builder<P> builder);
 

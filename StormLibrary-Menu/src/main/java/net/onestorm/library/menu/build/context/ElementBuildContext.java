@@ -13,6 +13,11 @@ public class ElementBuildContext extends StorageBuildContext {
         this.menu = menu;
     }
 
+    /**
+     * Retrieves the menu for which this element is being built.
+     *
+     * @return the menu associated with this build context
+     */
     public Menu getMenu() {
         return menu;
     }

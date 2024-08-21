@@ -14,6 +14,7 @@ public interface Builder<P> {
      * Builds a "product" with the given context
      * @param context the context
      * @return The "product"
+     * @throws BuildException if the builder is unable to create a "product" with the given context
      */
     P build(BuildContext context);
 
