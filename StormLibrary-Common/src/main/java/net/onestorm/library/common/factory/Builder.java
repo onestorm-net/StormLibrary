@@ -1,6 +1,6 @@
 package net.onestorm.library.common.factory;
 
-import net.onestorm.library.storage.StorageMap;
+import net.onestorm.library.common.factory.context.BuildContext;
 
 public interface Builder<P> {
 
@@ -11,10 +11,10 @@ public interface Builder<P> {
     String getName();
 
     /**
-     * Builds a "product" with the given configurations
-     * @param storage The StorageMap configuration
+     * Builds a "product" with the given context
+     * @param context the context
      * @return The "product"
      */
-    P build(StorageMap storage);
+    P build(BuildContext context);
 
 }

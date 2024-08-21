@@ -1,13 +1,20 @@
 package net.onestorm.library.requirement;
 
+import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
+import net.onestorm.library.common.factory.context.BuildContext;
+import net.onestorm.library.common.factory.context.StorageBuildContext;
 import net.onestorm.library.storage.StorageMap;
 
 public abstract class AbstractRequirementBuilder implements Builder<Requirement> {
 
     @Override
-    public Requirement build(StorageMap storage) {
+    public Requirement build(BuildContext context) {
+        if (!(context instanceof StorageBuildContext storageContext)) {
+            throw new BuildException("Context is not an instance of StorageBuildContext.");
+        }
 
+        StorageMap storage = storageContext.getStorage();
         boolean isInverted = storage.getBoolean("is-inverted").orElse(false);
 
         return build(storage, isInverted);

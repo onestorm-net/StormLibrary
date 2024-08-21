@@ -2,6 +2,7 @@ package net.onestorm.library.paper.action;
 
 import net.onestorm.library.action.Action;
 import net.onestorm.library.common.factory.Builder;
+import net.onestorm.library.common.factory.context.BuildContext;
 import net.onestorm.library.storage.StorageMap;
 
 public class KillPlayerActionBuilder implements Builder<Action> {
@@ -14,7 +15,7 @@ public class KillPlayerActionBuilder implements Builder<Action> {
     }
 
     @Override
-    public Action build(StorageMap storage) {
+    public Action build(BuildContext context) {
         return new KillPlayerAction();
     }
 }

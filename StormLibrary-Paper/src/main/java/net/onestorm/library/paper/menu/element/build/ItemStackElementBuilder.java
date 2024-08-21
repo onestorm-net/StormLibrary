@@ -2,6 +2,10 @@ package net.onestorm.library.paper.menu.element.build;
 
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
+import net.onestorm.library.common.factory.context.BuildContext;
+import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.menu.Menu;
+import net.onestorm.library.menu.build.context.ElementBuildContext;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.paper.menu.element.ItemStackElement;
 import net.onestorm.library.paper.util.ItemStackUtil;
@@ -22,7 +26,14 @@ public class ItemStackElementBuilder implements Builder<Element> {
     }
 
     @Override
-    public Element build(StorageMap storage) {
+    public Element build(BuildContext context) {
+        if (!(context instanceof ElementBuildContext elementBuildContext)) {
+            throw new BuildException("Context is not an instance of ElementBuildContext.");
+        }
+
+        StorageMap storage = elementBuildContext.getStorage();
+        Menu menu = elementBuildContext.getMenu();
+
         StorageMap itemMap = storage.getMap("item-stack").orElseThrow(() -> new BuildException("Missing \"item-stack\" key in storage while building: " + BUILDER_NAME));
         int x = storage.getInteger("x").orElseThrow(() -> new BuildException("Missing \"x\" key in storage while building: " + BUILDER_NAME));
         int y = storage.getInteger("y").orElseThrow(() -> new BuildException("Missing \"y\" key in storage while building: " + BUILDER_NAME));
@@ -32,7 +43,7 @@ public class ItemStackElementBuilder implements Builder<Element> {
         List<Integer> slots = new ArrayList<>();
         for (int indexY = y; indexY < y + height; indexY++) {
             for (int indexX = x; indexX < x + width; indexX++) {
-                slots.add(indexY * 9 + indexX);
+                slots.add(indexY * menu.getWidth() + indexX);
             }
         }
 
