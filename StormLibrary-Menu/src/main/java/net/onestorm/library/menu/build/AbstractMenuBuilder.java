@@ -6,7 +6,7 @@ import net.onestorm.library.common.factory.Factory;
 import net.onestorm.library.common.factory.context.BuildContext;
 import net.onestorm.library.common.factory.context.StorageBuildContext;
 import net.onestorm.library.menu.Menu;
-import net.onestorm.library.menu.build.context.ElementBuildContext;
+import net.onestorm.library.menu.element.build.context.ElementBuildContext;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.storage.StorageMap;
 

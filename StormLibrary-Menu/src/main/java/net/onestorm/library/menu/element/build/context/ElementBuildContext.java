@@ -1,4 +1,4 @@
-package net.onestorm.library.menu.build.context;
+package net.onestorm.library.menu.element.build.context;
 
 import net.onestorm.library.common.factory.context.StorageBuildContext;
 import net.onestorm.library.menu.Menu;
