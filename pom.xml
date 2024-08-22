@@ -6,7 +6,7 @@
 
     <groupId>net.onestorm.library</groupId>
     <artifactId>stormlibrary</artifactId>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.7.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>StormLibrary-Paper</module>
