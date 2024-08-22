@@ -2,6 +2,7 @@ package net.onestorm.library.paper.menu.element;
 
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.menu.cell.Cell;
+import net.onestorm.library.menu.element.AbstractElement;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.IdentifiableElement;
 import net.onestorm.library.menu.element.PrioritizableElement;
@@ -10,14 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public class ItemStackElement implements Element, IdentifiableElement, PrioritizableElement {
+public class ItemStackElement extends AbstractElement {
 
     private static final String ELEMENT_NAME = "stormlibrary:item-stack";
 
     private List<Integer> slots;
     private ItemStack itemStack;
-    private String identifier = null;
-    private int priority = 0;
 
     public ItemStackElement(List<Integer> slots, ItemStack itemStack) {
         this.slots = slots;
@@ -38,26 +37,6 @@ public class ItemStackElement implements Element, IdentifiableElement, Prioritiz
         }
 
         return content;
-    }
-
-    @Override
-    public Optional<String> getIdentifier() {
-        return Optional.ofNullable(identifier);
-    }
-
-    @Override
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
-    }
-
-    @Override
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public List<Integer> getSlots() {
