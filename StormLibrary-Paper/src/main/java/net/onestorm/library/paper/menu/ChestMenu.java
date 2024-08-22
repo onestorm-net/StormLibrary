@@ -1,18 +1,15 @@
 package net.onestorm.library.paper.menu;
 
-import net.kyori.adventure.text.Component;
 
 public class ChestMenu extends PaperMenu {
 
     private static final int MENU_WIDTH = 9;
-    private static final Component DEFAULT_MENU_TITLE = Component.text("Chest");
 
     private int size;
     private int height;
 
-    public ChestMenu(int size, String title) {
+    public ChestMenu(int size) {
         setSize(size);
-        setTitle(title);
     }
 
     @Override

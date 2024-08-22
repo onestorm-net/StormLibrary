@@ -8,10 +8,6 @@ public class HopperMenu extends PaperMenu {
     private static final int MENU_HEIGHT = 1;
     private static final int MENU_SIZE = 5;
 
-    public HopperMenu(String title) {
-        setTitle(title);
-    }
-
     @Override
     public int getWidth() {
         return MENU_WIDTH;

@@ -11,7 +11,6 @@ public class ChestMenuBuilder extends AbstractMenuBuilder {
 
     private static final String MENU_NAME = "chest-menu";
     private static final int DEFAULT_MENU_SIZE = 9;
-    private static final String DEFAULT_MENU_TITLE = "Chest";
 
     public ChestMenuBuilder(Factory<Element> elementFactory) {
         super(elementFactory);
@@ -25,8 +24,7 @@ public class ChestMenuBuilder extends AbstractMenuBuilder {
     @Override
     protected Menu createMenu(StorageMap configuration) {
         int size = configuration.getInteger("size").orElse(DEFAULT_MENU_SIZE);
-        String title = configuration.getString("title").orElse(DEFAULT_MENU_TITLE);
 
-        return new ChestMenu(size, title);
+        return new ChestMenu(size);
     }
 }

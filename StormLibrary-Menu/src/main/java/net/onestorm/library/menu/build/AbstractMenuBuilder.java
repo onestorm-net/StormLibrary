@@ -29,6 +29,8 @@ public abstract class AbstractMenuBuilder implements Builder<Menu> {
         StorageMap storage = storageContext.getStorage();
         Menu menu = createMenu(storage);
 
+        storage.getString("title").ifPresent(menu::setTitle);
+
         Optional<StorageMap> optionalElementMap = storage.getMap("elements");
 
         if (optionalElementMap.isEmpty()) {
