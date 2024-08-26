@@ -2,6 +2,8 @@ package net.onestorm.library.common.factory;
 
 import net.onestorm.library.common.factory.context.BuildContext;
 
+import java.util.function.Function;
+
 public interface Builder<P> {
 
     /**
@@ -18,4 +20,17 @@ public interface Builder<P> {
      */
     P build(BuildContext context);
 
+    static <P> Builder<P> of(String name, Function<BuildContext, P> function) {
+        return new Builder<P>() {
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public P build(BuildContext context) {
+                return function.apply(context);
+            }
+        };
+    }
 }
