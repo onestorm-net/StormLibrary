@@ -9,7 +9,6 @@ import net.onestorm.library.menu.element.CloseableElement;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.ElementComparator;
 import net.onestorm.library.menu.cell.Cell;
-import net.onestorm.library.paper.menu.element.TagResolverElement;
 import net.onestorm.library.paper.menu.element.ListenerElement;
 import net.onestorm.library.paper.menu.cell.ItemStackCell;
 import net.onestorm.library.paper.user.PaperUser;
@@ -19,8 +18,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +25,7 @@ import java.util.Map;
 
 public abstract class PaperMenu extends AbstractMenu {
 
+    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
     private static final Comparator<Element> ELEMENT_COMPARATOR = new ElementComparator();
 
     private MenuHolder menuHolder;
@@ -152,17 +150,7 @@ public abstract class PaperMenu extends AbstractMenu {
     }
 
     public Component createTitle() {
-        Collection<TagResolver> tagResolvers = new ArrayList<>();
-
-        for (Element element : getElements()) {
-            if (!(element instanceof TagResolverElement placeholderElement)) {
-                continue;
-            }
-
-            tagResolvers.addAll(placeholderElement.getTagResolvers(this));
-        }
-
-        return MiniMessage.miniMessage().deserialize(getTitle(), TagResolver.resolver(tagResolvers));
+        return MINI_MESSAGE.deserialize(getTitle(), TagResolver.resolver(tagResolvers));
     }
 
     protected abstract MenuHolder createMenuHolder();

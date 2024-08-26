@@ -1,16 +1,19 @@
 package net.onestorm.library.menu;
 
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.IdentifiableElement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractMenu implements Menu {
+public abstract class AbstractMenu implements Menu, TagResolverMenu {
 
-    private String title;
-    private final List<Element> elementList = new ArrayList<>();
+    protected String title;
+    protected final List<Element> elementList = new ArrayList<>();
+    protected Collection<TagResolver> tagResolvers = new ArrayList<>();
 
     @Override
     public String getTitle() {
@@ -86,5 +89,15 @@ public abstract class AbstractMenu implements Menu {
             Optional<String> optionalId = identifierElement.getIdentifier();
             return optionalId.isPresent() && optionalId.get().equalsIgnoreCase(identifier);
         });
+    }
+
+    @Override
+    public Collection<TagResolver> getTagResolvers() {
+        return tagResolvers;
+    }
+
+    @Override
+    public void setTagResolvers(Collection<TagResolver> resolvers) {
+        this.tagResolvers = resolvers;
     }
 }
