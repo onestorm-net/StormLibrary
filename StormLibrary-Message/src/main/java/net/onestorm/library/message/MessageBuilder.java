@@ -2,6 +2,7 @@ package net.onestorm.library.message;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -23,6 +24,8 @@ public interface MessageBuilder extends ComponentLike {
      * @return the current {@link MessageBuilder} instance for chaining
      */
     MessageBuilder withDefault(String message);
+
+    MessageBuilder withTagResolver(TagResolver resolver);
 
     /**
      * Replaces a placeholder within the message with the provided {@link Component}.

@@ -41,6 +41,12 @@ public class MessageBuilderImpl implements MessageBuilder {
     }
 
     @Override
+    public MessageBuilder withTagResolver(TagResolver resolver) {
+        tagResolvers.add(resolver);
+        return this;
+    }
+
+    @Override
     public MessageBuilder withPlaceholder(@TagPattern String key, String value) {
         return withPlaceholder(key, Component.text(value));
     }
