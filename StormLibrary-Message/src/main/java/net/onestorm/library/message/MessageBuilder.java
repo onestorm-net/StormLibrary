@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public interface MessageBuilder extends ComponentLike {
 
@@ -42,17 +43,36 @@ public interface MessageBuilder extends ComponentLike {
     MessageBuilder withPlaceholder(String key, String value);
 
     /**
-     * Attempts to build the {@link Component} message, returning an {@link Optional}.
-     *
-     * @return an {@link Optional} containing the built {@link Component} if successful, or {@link Optional#empty()} if not
-     */
-    Optional<Component> tryBuild();
-
-    /**
      * Builds and returns the {@link Component} message.
      *
      * @return the built {@link Component} message
      * @throws NullPointerException if required data is missing and the message cannot be built
      */
     Component build();
+
+    /**
+     * Attempts to build the {@link Component} message, returning an {@link Optional}.
+     *
+     * @return an {@link Optional} containing the built {@link Component} if successful, or {@link Optional#empty()} if not
+     */
+    default Optional<Component> tryBuild() {
+        Component component = null;
+        try {
+            component = build();
+        } catch (Exception e) {
+            // ignored
+        }
+        return Optional.ofNullable(component);
+    }
+
+    /**
+     * Builds the {@link Component} and passes it to the provided {@link Consumer}, or throws an exception if building fails.
+     *
+     * @param consumer the {@link Consumer} to accept the built {@link Component}
+     * @throws IllegalStateException if the message cannot be built
+     */
+    default void buildThen(Consumer<Component> consumer) {
+        Component component = build();
+        consumer.accept(component);
+    }
 }

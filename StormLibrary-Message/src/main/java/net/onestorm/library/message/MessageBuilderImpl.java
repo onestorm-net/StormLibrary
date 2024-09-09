@@ -52,22 +52,16 @@ public class MessageBuilderImpl implements MessageBuilder {
     }
 
     @Override
-    public Optional<Component> tryBuild() {
+    public Component build() {
         String finalMessage = message;
         if (message == null) {
             if (defaultMessage == null) {
-                return Optional.empty();
+                throw new IllegalArgumentException("message and defaultMessage are null");
             }
             finalMessage = defaultMessage;
         }
 
-        Component component = MINI_MESSAGE.deserialize(finalMessage, TagResolver.resolver(tagResolvers));
-        return Optional.of(component);
-    }
-
-    @Override
-    public Component build() {
-        return tryBuild().orElseThrow(() -> new NullPointerException("message and defaultMessage are null"));
+        return MINI_MESSAGE.deserialize(finalMessage, TagResolver.resolver(tagResolvers));
     }
 
     @Override
