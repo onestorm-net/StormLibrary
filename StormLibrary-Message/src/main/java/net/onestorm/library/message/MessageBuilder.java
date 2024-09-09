@@ -25,6 +25,12 @@ public interface MessageBuilder extends ComponentLike {
      */
     MessageBuilder withDefault(String message);
 
+    /**
+     * Adds a {@link TagResolver} to the {@link MessageBuilder} for resolving placeholders or tags within the message.
+     *
+     * @param resolver the {@link TagResolver} to be added to this {@link MessageBuilder}
+     * @return the current {@link MessageBuilder} instance for chaining
+     */
     MessageBuilder withTagResolver(TagResolver resolver);
 
     /**
