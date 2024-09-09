@@ -17,6 +17,7 @@
         <module>StormLibrary-Storage</module>
         <module>StormLibrary-Common</module>
         <module>StormLibrary-Menu</module>
+        <module>StormLibrary-Message</module>
     </modules>
 
     <properties>
