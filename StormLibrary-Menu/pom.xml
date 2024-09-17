@@ -6,27 +6,27 @@
     <parent>
         <groupId>net.onestorm.library</groupId>
         <artifactId>stormlibrary</artifactId>
-        <version>1.8.3-SNAPSHOT</version>
+        <version>1.8.3-JAVA17-SNAPSHOT</version>
     </parent>
 
     <artifactId>stormlibrary-menu</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-user</artifactId>
-            <version>1.8.3-SNAPSHOT</version>
+            <version>1.8.3-JAVA17-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-common</artifactId>
-            <version>1.8.3-SNAPSHOT</version>
+            <version>1.8.3-JAVA17-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
