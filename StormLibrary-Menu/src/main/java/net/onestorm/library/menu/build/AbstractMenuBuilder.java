@@ -48,7 +48,7 @@ public abstract class AbstractMenuBuilder implements Builder<Menu> {
             try {
                 element = elementFactory.build(new ElementBuildContext(elementStorage, menu));
             } catch (BuildException e) {
-                return;
+                throw new BuildException("Failed to build element: " + key, e);
             }
 
             menu.addElement(element);
