@@ -55,6 +55,12 @@
             <version>1.8.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-event</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
