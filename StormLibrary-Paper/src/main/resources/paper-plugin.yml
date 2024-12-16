@@ -1,0 +1,7 @@
+name: "StormLibrary"
+version: "${project.parent.version}"
+main: "net.onestorm.library.paper.StormLibrary"
+api-version: "1.21"
+authors:
+  - OneStorm.net
+  - Sheepert_
