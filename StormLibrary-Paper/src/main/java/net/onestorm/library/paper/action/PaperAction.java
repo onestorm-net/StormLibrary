@@ -13,5 +13,5 @@ public abstract class PaperAction implements Action {
         execute(paperUser);
     }
 
-    abstract void execute(PaperUser user);
+    public abstract void execute(PaperUser user);
 }

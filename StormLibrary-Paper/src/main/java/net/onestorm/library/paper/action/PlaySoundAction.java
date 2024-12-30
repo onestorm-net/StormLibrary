@@ -21,7 +21,7 @@ public class PlaySoundAction extends PaperAction {
     }
 
     @Override
-    void execute(PaperUser user) {
+    public void execute(PaperUser user) {
         Player player = user.asPlayer();
         World world = player.getWorld();
         Location location = player.getLocation();

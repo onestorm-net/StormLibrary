@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class KillPlayerAction extends PaperAction {
 
     @Override
-    void execute(PaperUser user) {
+    public void execute(PaperUser user) {
         Player player = user.asPlayer();
 
         // todo change source to default
