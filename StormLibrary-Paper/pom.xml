@@ -33,6 +33,43 @@
             <artifactId>paper-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-action</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-common</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-menu</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-message</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-requirement</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-storage</artifactId>
+            <version>1.8.5-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-user</artifactId>
@@ -42,18 +79,6 @@
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-username</artifactId>
-            <version>1.8.5-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.onestorm.library</groupId>
-            <artifactId>stormlibrary-action</artifactId>
-            <version>1.8.5-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.onestorm.library</groupId>
-            <artifactId>stormlibrary-menu</artifactId>
             <version>1.8.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
