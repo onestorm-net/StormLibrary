@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class PlaySoundActionBuilder implements Builder<Action> {
 
-    private static final String ACTION_BUILDER_NAME = "play-sound";
+    private static final String BUILDER_NAME = "play-sound";
 
     private final Server server;
 
@@ -25,7 +25,7 @@ public class PlaySoundActionBuilder implements Builder<Action> {
 
     @Override
     public String getName() {
-        return ACTION_BUILDER_NAME;
+        return BUILDER_NAME;
     }
 
     @Override
