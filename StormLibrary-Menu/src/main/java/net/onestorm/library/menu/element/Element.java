@@ -21,4 +21,21 @@ public interface Element {
      * @return an iterable of cells representing the rendered content
      */
     Iterable<Cell> getContent(Menu menu);
+
+    /**
+     * Called when the element is added to a menu.
+     * Use this to perform any setup or registration logic needed for integration with the menu.
+     *
+     * @param menu the menu this element is being added to
+     */
+    void register(Menu menu);
+
+    /**
+     * Called when the element is removed from a menu.
+     * Use this to perform any cleanup or unregistration logic needed when detaching from the menu.
+     *
+     * @param menu the menu this element is being removed from
+     */
+    void unregister(Menu menu);
+
 }
