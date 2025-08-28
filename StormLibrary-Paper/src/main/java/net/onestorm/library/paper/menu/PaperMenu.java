@@ -121,6 +121,11 @@ public abstract class PaperMenu extends AbstractMenu {
     }
 
     @Override
+    public PlayerContext getContext() {
+        return context;
+    }
+
+    @Override
     public Map<String, Object> getOptions() {
         return Collections.emptyMap();
     }
