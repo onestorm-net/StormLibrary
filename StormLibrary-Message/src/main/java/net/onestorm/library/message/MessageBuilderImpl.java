@@ -18,7 +18,7 @@ public class MessageBuilderImpl implements MessageBuilder {
     private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
 
     private String message;
-    private String defaultMessage = "";
+    private String defaultMessage;
     private boolean allowDisabled = false;
     private final Collection<TagResolver> tagResolvers = new ArrayList<>();
 
