@@ -19,6 +19,7 @@ public class MessageBuilderImpl implements MessageBuilder {
 
     private String message;
     private String defaultMessage = "";
+    private boolean allowDisabled = false;
     private final Collection<TagResolver> tagResolvers = new ArrayList<>();
 
     public MessageBuilderImpl() {
@@ -37,6 +38,18 @@ public class MessageBuilderImpl implements MessageBuilder {
     @Override
     public MessageBuilder withDefault(String message) {
         this.defaultMessage = message;
+        return this;
+    }
+
+    @Override
+    public MessageBuilder allowDisabled() {
+        allowDisabled = true;
+        return this;
+    }
+
+    @Override
+    public MessageBuilder disallowDisabled() {
+        allowDisabled = false;
         return this;
     }
 
@@ -65,9 +78,30 @@ public class MessageBuilderImpl implements MessageBuilder {
                 throw new IllegalArgumentException("message and defaultMessage are null");
             }
             finalMessage = defaultMessage;
+        } else {
+            if (allowDisabled && message.equalsIgnoreCase("none")) {
+                throw new IllegalArgumentException("cannot build an disabled message");
+            }
+        }
+        return MINI_MESSAGE.deserialize(finalMessage, TagResolver.resolver(tagResolvers));
+    }
+
+    @Override
+    public Optional<Component> tryBuild() {
+        String finalMessage = message;
+        if (message == null) {
+            if (defaultMessage == null) {
+                return Optional.empty();
+            }
+            finalMessage = defaultMessage;
+        } else {
+            if (allowDisabled && message.equalsIgnoreCase("none")) {
+                return Optional.empty();
+            }
         }
 
-        return MINI_MESSAGE.deserialize(finalMessage, TagResolver.resolver(tagResolvers));
+        Component component = MINI_MESSAGE.deserialize(finalMessage, TagResolver.resolver(tagResolvers));
+        return Optional.of(component);
     }
 
     @Override
