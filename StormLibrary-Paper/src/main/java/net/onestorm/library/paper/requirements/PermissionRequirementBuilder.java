@@ -1,4 +1,4 @@
-package net.onestorm.library.requirement.implementation;
+package net.onestorm.library.paper.requirements;
 
 import net.onestorm.library.requirement.AbstractRequirementBuilder;
 import net.onestorm.library.requirement.Requirement;
