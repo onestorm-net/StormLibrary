@@ -6,6 +6,7 @@ import net.onestorm.library.menu.element.IdentifiableElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,27 +69,37 @@ public abstract class AbstractMenu implements Menu, TagResolverMenu {
     @Override
     public void addElement(Element element) {
         elementList.add(element);
+        element.register(this);
     }
 
     @Override
     public void addElements(List<Element> elements) {
-        elementList.addAll(elements);
+        elementList.forEach(this::addElement);
     }
 
     @Override
     public void removeElement(Element element) {
-        elementList.remove(element);
+        if (elementList.remove(element)) {
+            element.unregister(this);
+        }
     }
 
     @Override
     public void removeElementById(String identifier) {
-        elementList.removeIf(element -> {
+        Iterator<Element> iterator = elementList.iterator();
+        while (iterator.hasNext()) {
+            Element element = iterator.next();
             if (!(element instanceof IdentifiableElement identifierElement)) {
-                return false; // continue
+                continue;
             }
             Optional<String> optionalId = identifierElement.getIdentifier();
-            return optionalId.isPresent() && optionalId.get().equalsIgnoreCase(identifier);
-        });
+
+            if (optionalId.isPresent() && optionalId.get().equalsIgnoreCase(identifier)) {
+                iterator.remove();
+                element.unregister(this);
+                break; // id should be unique, just delete the first element we find
+            }
+        }
     }
 
     @Override
