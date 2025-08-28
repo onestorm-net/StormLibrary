@@ -13,7 +13,6 @@ import net.onestorm.library.menu.cell.Cell;
 import net.onestorm.library.paper.context.PlayerContext;
 import net.onestorm.library.paper.menu.element.ListenerElement;
 import net.onestorm.library.paper.menu.cell.ItemStackCell;
-import net.onestorm.library.paper.user.PaperUser;
 import net.onestorm.library.user.User;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
