@@ -20,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -60,12 +61,11 @@ public abstract class PaperMenu extends AbstractMenu {
 
         Component title = createTitle();
 
-        if (title != null && !title.equals(currentTitle)) {
+        if (title != null && !title.equals(menuHolder.getTitle())) {
             menuHolder.invalidate();
             menuHolder = createMenuHolder();
-            currentTitle = title;
             setContent();
-            owner.asPlayer().openInventory(menuHolder.getInventory());
+            context.getPlayer().openInventory(menuHolder.getInventory());
         } else {
             setContent();
         }
