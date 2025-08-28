@@ -1,7 +1,7 @@
 package net.onestorm.library.paper.action;
 
 import net.kyori.adventure.sound.Sound;
-import net.onestorm.library.paper.user.PaperUser;
+import net.onestorm.library.paper.context.PlayerContext;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -21,8 +21,8 @@ public class PlaySoundAction extends PaperAction {
     }
 
     @Override
-    public void execute(PaperUser user) {
-        Player player = user.asPlayer();
+    public void execute(PlayerContext context) {
+        Player player = context.getPlayer();
         World world = player.getWorld();
         Location location = player.getLocation();
 

@@ -2,8 +2,8 @@ package net.onestorm.library.requirement;
 
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
-import net.onestorm.library.common.factory.context.BuildContext;
-import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.common.context.BuildContext;
+import net.onestorm.library.common.context.StorageBuildContext;
 import net.onestorm.library.storage.StorageMap;
 
 public abstract class AbstractRequirementBuilder implements Builder<Requirement> {
@@ -11,7 +11,7 @@ public abstract class AbstractRequirementBuilder implements Builder<Requirement>
     @Override
     public Requirement build(BuildContext context) {
         if (!(context instanceof StorageBuildContext storageContext)) {
-            throw new BuildException("Context is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = storageContext.getStorage();

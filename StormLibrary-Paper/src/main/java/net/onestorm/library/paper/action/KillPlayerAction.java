@@ -1,14 +1,14 @@
 package net.onestorm.library.paper.action;
 
 
-import net.onestorm.library.paper.user.PaperUser;
+import net.onestorm.library.paper.context.PlayerContext;
 import org.bukkit.entity.Player;
 
 public class KillPlayerAction extends PaperAction {
 
     @Override
-    public void execute(PaperUser user) {
-        Player player = user.asPlayer();
+    public void execute(PlayerContext context) {
+        Player player = context.getPlayer();
 
         // todo change source to default
 

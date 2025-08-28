@@ -1,4 +1,4 @@
-package net.onestorm.library.common.factory.context;
+package net.onestorm.library.common.context;
 
 import net.onestorm.library.common.factory.Factory;
 import net.onestorm.library.storage.StorageMap;

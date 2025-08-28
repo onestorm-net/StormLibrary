@@ -5,8 +5,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.onestorm.library.action.Action;
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
-import net.onestorm.library.common.factory.context.BuildContext;
-import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.common.context.BuildContext;
+import net.onestorm.library.common.context.StorageBuildContext;
 import net.onestorm.library.storage.StorageMap;
 
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class MessageActionBuilder implements Builder<Action> {
     @Override
     public Action build(BuildContext context) {
         if (!(context instanceof StorageBuildContext storageContext)) {
-            throw new BuildException("Context is not an instance of StorageBuildContext.");
+            throw new BuildException("UserContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = storageContext.getStorage();

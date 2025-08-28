@@ -1,7 +1,7 @@
 package net.onestorm.library.common.factory;
 
 
-import net.onestorm.library.common.factory.context.BuildContext;
+import net.onestorm.library.common.context.BuildContext;
 
 import java.util.HashMap;
 import java.util.Locale;

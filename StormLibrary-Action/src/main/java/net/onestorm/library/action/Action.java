@@ -1,13 +1,13 @@
 package net.onestorm.library.action;
 
-import net.onestorm.library.user.User;
+import net.onestorm.library.common.context.UserContext;
 
 public interface Action {
 
     /**
      * Execute the action
-     * @param user User which the action is used on
+     * @param context which the action is used on
      */
-    void execute(User user);
+    void execute(UserContext context);
 
 }

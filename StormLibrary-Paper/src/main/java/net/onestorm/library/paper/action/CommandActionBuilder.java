@@ -3,8 +3,8 @@ package net.onestorm.library.paper.action;
 import net.onestorm.library.action.Action;
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
-import net.onestorm.library.common.factory.context.BuildContext;
-import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.common.context.BuildContext;
+import net.onestorm.library.common.context.StorageBuildContext;
 import net.onestorm.library.storage.StorageMap;
 import org.bukkit.plugin.Plugin;
 
@@ -28,7 +28,7 @@ public class CommandActionBuilder implements Builder<Action> {
     @Override
     public Action build(BuildContext context) {
         if (!(context instanceof StorageBuildContext storageContext)) {
-            throw new BuildException("Context is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = storageContext.getStorage();

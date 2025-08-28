@@ -1,6 +1,6 @@
 package net.onestorm.library.menu.element.build.context;
 
-import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.common.context.StorageBuildContext;
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.storage.StorageMap;
 

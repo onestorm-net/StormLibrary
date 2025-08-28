@@ -1,6 +1,6 @@
 package net.onestorm.library.paper.action;
 
-import net.onestorm.library.paper.user.PaperUser;
+import net.onestorm.library.paper.context.PlayerContext;
 
 public class PlayerCommandAction extends PaperAction {
 
@@ -11,7 +11,7 @@ public class PlayerCommandAction extends PaperAction {
     }
 
     @Override
-    public void execute(PaperUser user) {
-        user.asPlayer().chat("/" + command);
+    public void execute(PlayerContext context) {
+        context.getPlayer().chat("/" + command);
     }
 }

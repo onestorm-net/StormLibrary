@@ -1,6 +1,6 @@
 package net.onestorm.library.common.factory;
 
-import net.onestorm.library.common.factory.context.BuildContext;
+import net.onestorm.library.common.context.BuildContext;
 
 public interface Factory<P> {
 

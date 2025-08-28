@@ -1,6 +1,6 @@
 package net.onestorm.library.paper.action;
 
-import net.onestorm.library.paper.user.PaperUser;
+import net.onestorm.library.paper.context.PlayerContext;
 import org.bukkit.Server;
 import org.bukkit.command.CommandException;
 import org.bukkit.plugin.Plugin;
@@ -20,7 +20,7 @@ public class ConsoleCommandAction extends PaperAction {
     }
 
     @Override
-    public void execute(PaperUser user) {
+    public void execute(PlayerContext context) {
         try {
             server.dispatchCommand(server.getConsoleSender(), command);
         } catch (CommandException e) {

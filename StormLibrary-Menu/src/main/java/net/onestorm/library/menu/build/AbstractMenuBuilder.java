@@ -3,8 +3,8 @@ package net.onestorm.library.menu.build;
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
 import net.onestorm.library.common.factory.Factory;
-import net.onestorm.library.common.factory.context.BuildContext;
-import net.onestorm.library.common.factory.context.StorageBuildContext;
+import net.onestorm.library.common.context.BuildContext;
+import net.onestorm.library.common.context.StorageBuildContext;
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.menu.element.build.context.ElementBuildContext;
 import net.onestorm.library.menu.element.Element;
@@ -23,7 +23,7 @@ public abstract class AbstractMenuBuilder implements Builder<Menu> {
     @Override
     public Menu build(BuildContext context) {
         if (!(context instanceof StorageBuildContext storageContext)) {
-            throw new BuildException("Context is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = storageContext.getStorage();

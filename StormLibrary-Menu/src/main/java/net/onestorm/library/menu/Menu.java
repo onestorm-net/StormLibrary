@@ -1,5 +1,6 @@
 package net.onestorm.library.menu;
 
+import net.onestorm.library.common.context.UserContext;
 import net.onestorm.library.menu.cell.Cell;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.user.User;
@@ -16,7 +17,17 @@ public interface Menu {
      *
      * @param user the user for whom the menu will be opened
      */
-    void open(User user);
+    default void open(User user) {
+        final UserContext context = UserContext.of(user);
+        open(context);
+    }
+
+    /**
+     * Opens the menu for the specified user context.
+     *
+     * @param context the user context for which the menu will be opened
+     */
+    void open(UserContext context);
 
     /**
      * Opens the menu for the specified user with additional options.
@@ -24,13 +35,25 @@ public interface Menu {
      * @param user the user for whom the menu will be opened
      * @param options a map of options that can be used by the menu/elements (e.g., page, tab to be opened)
      */
-    void open(User user, Map<String, Object> options);
+    @Deprecated
+    default void open(User user, Map<String, Object> options) {
+        final UserContext context = UserContext.of(user);
+        open(context);
+    }
+
+    /**
+     * Retrieves the context of the menu.
+     *
+     * @return the context associated with this menu
+     */
+    UserContext getContext();
 
     /**
      * Retrieves the menu options.
      *
      * @return a map containing the menu options
      */
+    @Deprecated
     Map<String, Object> getOptions();
 
     /**
@@ -52,6 +75,7 @@ public interface Menu {
      *
      * @return the menu owner
      */
+    @Deprecated
     User getOwner();
 
     /**

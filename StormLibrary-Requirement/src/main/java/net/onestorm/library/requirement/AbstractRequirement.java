@@ -1,6 +1,6 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.user.User;
+import net.onestorm.library.common.context.UserContext;
 
 public abstract class AbstractRequirement implements Requirement {
 
@@ -11,17 +11,17 @@ public abstract class AbstractRequirement implements Requirement {
     }
 
     @Override
-    public boolean check(User user) {
+    public boolean check(UserContext context) {
         if (isInverted) {
-            return !onCheck(user);
+            return !onCheck(context);
         }
-        return onCheck(user);
+        return onCheck(context);
     }
 
     /**
-     * Checks if the user meets the requirement.
-     * @param user The user.
-     * @return True when user meets the requirement.
+     * Checks if the context meets the requirement.
+     * @param context The context.
+     * @return True when context meets the requirement.
      */
-    protected abstract boolean onCheck(User user);
+    protected abstract boolean onCheck(UserContext context);
 }

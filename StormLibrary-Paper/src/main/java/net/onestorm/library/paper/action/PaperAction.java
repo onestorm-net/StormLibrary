@@ -1,17 +1,17 @@
 package net.onestorm.library.paper.action;
 
 import net.onestorm.library.action.Action;
-import net.onestorm.library.paper.user.PaperUser;
-import net.onestorm.library.user.User;
+import net.onestorm.library.common.context.UserContext;
+import net.onestorm.library.paper.context.PlayerContext;
 
 public abstract class PaperAction implements Action {
     @Override
-    public void execute(User user) {
-        if (!(user instanceof PaperUser paperUser)) {
-            throw new IllegalArgumentException("This action needs a PaperUser to execute");
+    public void execute(UserContext context) {
+        if (!(context instanceof PlayerContext playerContext)) {
+            throw new IllegalArgumentException("This action needs a PlayerContext (Paper) to execute");
         }
-        execute(paperUser);
+        execute(playerContext);
     }
 
-    public abstract void execute(PaperUser user);
+    public abstract void execute(PlayerContext context);
 }

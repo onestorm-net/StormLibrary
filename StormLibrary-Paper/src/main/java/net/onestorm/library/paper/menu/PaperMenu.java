@@ -4,11 +4,13 @@ package net.onestorm.library.paper.menu;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.onestorm.library.common.context.UserContext;
 import net.onestorm.library.menu.AbstractMenu;
 import net.onestorm.library.menu.element.CloseableElement;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.ElementComparator;
 import net.onestorm.library.menu.cell.Cell;
+import net.onestorm.library.paper.context.PlayerContext;
 import net.onestorm.library.paper.menu.element.ListenerElement;
 import net.onestorm.library.paper.menu.cell.ItemStackCell;
 import net.onestorm.library.paper.user.PaperUser;
@@ -29,37 +31,25 @@ public abstract class PaperMenu extends AbstractMenu {
     private static final Comparator<Element> ELEMENT_COMPARATOR = new ElementComparator();
 
     private MenuHolder menuHolder;
-    private Component currentTitle;
-    private PaperUser owner = null;
-    private Map<String, Object> options;
+    private PlayerContext context;
 
     private final Map<Integer, Element> elementMap = new HashMap<>();
     private final Map<Integer, Cell> cellMap = new HashMap<>();
 
     @Override
-    public void open(User user) {
-        open(user, new HashMap<>());
-    }
-
-    @Override
-    public void open(User user, Map<String, Object> options) {
+    public void open(UserContext context) {
         if (menuHolder != null) {
             throw new IllegalStateException("Menu was already opened!");
         }
 
-        if (!(user instanceof PaperUser paperUser)) {
-            throw new IllegalArgumentException("Cannot open menu, user is not a paper user.");
+        if (!(context instanceof PlayerContext playerContext)) {
+            throw new IllegalArgumentException("Cannot open menu, this menu needs a PlayerContext (Paper) to open");
         }
 
-
-        this.owner = paperUser;
-        this.options = options;
-
-        //currentTitle = title;
+        this.context = playerContext;
         menuHolder = createMenuHolder();
         setContent();
-        paperUser.asPlayer().openInventory(menuHolder.getInventory());
-
+        playerContext.getPlayer().openInventory(menuHolder.getInventory());
     }
 
     @Override
@@ -133,12 +123,12 @@ public abstract class PaperMenu extends AbstractMenu {
 
     @Override
     public Map<String, Object> getOptions() {
-        return options;
+        return Collections.emptyMap();
     }
 
     @Override
     public User getOwner() {
-        return owner;
+        return context.getUser();
     }
 
     @Override

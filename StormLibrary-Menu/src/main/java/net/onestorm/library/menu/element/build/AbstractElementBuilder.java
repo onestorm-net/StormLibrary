@@ -2,7 +2,7 @@ package net.onestorm.library.menu.element.build;
 
 import net.onestorm.library.common.factory.BuildException;
 import net.onestorm.library.common.factory.Builder;
-import net.onestorm.library.common.factory.context.BuildContext;
+import net.onestorm.library.common.context.BuildContext;
 import net.onestorm.library.menu.Menu;
 import net.onestorm.library.menu.element.Element;
 import net.onestorm.library.menu.element.IdentifiableElement;
@@ -21,7 +21,7 @@ public abstract class AbstractElementBuilder implements Builder<Element> {
     @Override
     public Element build(BuildContext context) {
         if (!(context instanceof ElementBuildContext elementContext)) {
-            throw new BuildException("Context is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = elementContext.getStorage();

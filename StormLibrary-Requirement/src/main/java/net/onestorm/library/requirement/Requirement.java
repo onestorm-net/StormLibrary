@@ -1,14 +1,14 @@
 package net.onestorm.library.requirement;
 
-import net.onestorm.library.user.User;
+import net.onestorm.library.common.context.UserContext;
 
 public interface Requirement {
 
     /**
-     * Checks if the user meets the requirement.
-     * @param user The user.
-     * @return True when user meets the requirement.
+     * Checks if the context meets the requirement.
+     * @param context The context.
+     * @return True when context meets the requirement.
      */
-    boolean check(User user);
+    boolean check(UserContext context);
 
 }
