@@ -48,6 +48,12 @@
         </dependency>
         <dependency>
             <groupId>net.onestorm.library</groupId>
+            <artifactId>stormlibrary-cost</artifactId>
+            <version>1.10.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-menu</artifactId>
             <version>1.10.0-SNAPSHOT</version>
             <scope>compile</scope>

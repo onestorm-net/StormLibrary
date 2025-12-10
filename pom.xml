@@ -18,6 +18,7 @@
         <module>StormLibrary-Common</module>
         <module>StormLibrary-Menu</module>
         <module>StormLibrary-Message</module>
+        <module>StormLibrary-Cost</module>
     </modules>
 
     <properties>
