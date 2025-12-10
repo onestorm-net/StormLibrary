@@ -4,8 +4,8 @@ public interface Argument {
 
     Argument addArgument(Argument argument);
 
-    Argument suggest();
+    Argument suggest(Context context);
 
-    Argument execute();
+    Argument execute(Context context);
 
 }
