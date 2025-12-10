@@ -24,7 +24,7 @@ public class MessageActionBuilder implements Builder<Action> {
     @Override
     public Action build(BuildContext context) {
         if (!(context instanceof StorageBuildContext storageContext)) {
-            throw new BuildException("UserContext is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
         }
 
         StorageMap storage = storageContext.getStorage();

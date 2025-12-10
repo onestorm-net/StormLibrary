@@ -21,7 +21,7 @@ public abstract class AbstractElementBuilder implements Builder<Element> {
     @Override
     public Element build(BuildContext context) {
         if (!(context instanceof ElementBuildContext elementContext)) {
-            throw new BuildException("BuildContext is not an instance of StorageBuildContext.");
+            throw new BuildException("BuildContext is not an instance of ElementBuildContext.");
         }
 
         StorageMap storage = elementContext.getStorage();
