@@ -77,7 +77,7 @@ public class ExperienceCost extends PaperCost {
     private void takeExperience(Player player, int amount) {
         int current = getTotalExperience(player);
         if (current < amount) {
-            throw new IllegalArgumentException("Not enough experience, check canPay first!");
+            throw new IllegalStateException("Insufficient experience for " + player.getName());
         }
         setTotalExperience(player, current - amount);
     }

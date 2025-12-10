@@ -12,7 +12,6 @@ public abstract class PaperCost implements Cost {
         if (!(context instanceof PlayerContext playerContext)) {
             return false;
         }
-
         return canPay(playerContext);
     }
 
@@ -23,8 +22,6 @@ public abstract class PaperCost implements Cost {
         if (!(context instanceof PlayerContext playerContext)) {
             throw new IllegalArgumentException("This Cost needs a PlayerContext (Paper) to be able to pay");
         }
-
-
         return pay(playerContext);
     }
 

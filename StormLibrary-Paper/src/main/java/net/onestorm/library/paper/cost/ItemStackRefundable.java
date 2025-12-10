@@ -2,6 +2,7 @@ package net.onestorm.library.paper.cost;
 
 
 import net.onestorm.library.paper.context.PlayerContext;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -18,8 +19,9 @@ public class ItemStackRefundable extends PaperRefundable {
 
     @Override
     public void refund(PlayerContext context) {
-
-        // todo maybe add a scheduler, to run this on the next available tick?
+        if (!Bukkit.isPrimaryThread()) {
+            throw new IllegalStateException("ItemStackRefundable.refund(PlayerContext) must be called from the primary server thread");
+        }
 
         Player player = context.getPlayer();
         PlayerInventory inventory = player.getInventory();
