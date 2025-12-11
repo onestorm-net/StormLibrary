@@ -79,6 +79,10 @@ public class ItemStackCost extends PaperCost {
             }
         }
 
+        if (needed > 0) {
+            throw new IllegalStateException("Insufficient items for " + player.getName());
+        }
+
         inventory.setStorageContents(contents);
         return new ItemStackRefundable(refundList);
     }
