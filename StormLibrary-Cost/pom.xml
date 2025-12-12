@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.onestorm.library</groupId>
         <artifactId>stormlibrary</artifactId>
-        <version>1.10.0-SNAPSHOT</version>
+        <version>1.11.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>stormlibrary-cost</artifactId>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>net.onestorm.library</groupId>
             <artifactId>stormlibrary-common</artifactId>
-            <version>1.10.0-SNAPSHOT</version>
+            <version>1.11.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
